@@ -5,6 +5,8 @@
 		?>
 		<?= link_tag("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css")?>
 		<?= link_tag("assets/css/lux-css/lux-bootstrap.css")?>
+		<?= link_tag("assets/css/custom-css.css")?>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<?php
 	}
 
@@ -22,6 +24,9 @@
 		<script 
 			type="text/javascript"
 			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+		<script 
+			type="text/javascript"
+			src="<?= base_url("assets/js/custom-js.js")?>"></script>
 		
 		<?php
 	}

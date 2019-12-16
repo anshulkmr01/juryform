@@ -6,9 +6,11 @@
 	{
 		
 		public function index(){
-			//$this->load->helper('html');
-			//$this->load->helper('globalCssJS');
-			$this->load->view('homeView');
+
+			$this->load->model('AdminModel');
+			$queryResult = $this->AdminModel->getCategories();
+
+			$this->load->view('user/homepage',['categoriesData'=>$queryResult]);
 		}
 		
 	}
