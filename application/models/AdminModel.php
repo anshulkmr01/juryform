@@ -18,6 +18,9 @@
 
 		function getCategories(){
 			$query = $this->db->get('Documentcategories');
+
+		//			$query = $this->db->join('DocumentNames', 'DocumentNames.CategoryId =
+		//			Documentcategories.CategoryId')->get('Documentcategories');
 			return $query;
 		}
 
@@ -26,22 +29,26 @@
 		}
 
 		function deleteCategory($categoryId){
-			return $this->db->delete('Documentcategories',['ID'=>$categoryId]);
+			return $this->db->delete('Documentcategories',['CategoryId'=>$categoryId]);
 		}
 
 
 		function updateCategoryName($CategoryId,$editCategory){
-			return $this->db->where('id',$CategoryId)
+			return $this->db->where('CategoryId',$CategoryId)
 						->update('Documentcategories',['Categoryname'=>$editCategory]);
 		}
 
-		function addDocuments($categoryId,$image_path){
-			return $this->db->insert('DocumentNames',['	CategoryId'=>$categoryId,'DocumentName'=>$image_path]);
+		function addDocuments($categoryId,$image_path,$image_name){
+			return $this->db->insert('DocumentNames',['	CategoryId'=>$categoryId,'DocumentName'=>$image_path,'DocumentName'=>$image_name]);
 
 		}
 
 		function getDocumentsList($CategoryId){
-			return $this->db->where(['CategoryId'=>$CategoryId])->get('DocumentNames')->result();
+		return $this->db->where(['CategoryId'=>$CategoryId])->get('DocumentNames')->result();
+		}
+
+		function deleteDocuments($documentId){
+			return $this->db->delete('DocumentNames',['ID'=>$documentId]);
 		}
 	}
 ?>

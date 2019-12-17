@@ -18,7 +18,7 @@
 
 		<div class="row document-add">
 			<div class="col-sm-6">
-				<h3><div class="category-label"><small class="text-muted">You are in</small> <?= $categoryData['categoryName'] ?> <small class="text-muted">Category</small></div></h3>
+				<h3><div class="category-label"><small class="text-muted">You are in</small> <?= $multipleData['categoryData']['categoryName'] ?> <small class="text-muted">Category</small></div></h3>
 				<?= form_open_multipart('admin/AdminLogin/uploadFiles'); ?>
 		    <div class="form-group">
 
@@ -38,14 +38,16 @@
 
 		      <?= form_upload(['class'=>'form-control-file','name'=>'docFiles','id'=>'docFiles','aria-describedby'=>'docFiles']);
 		      ?>
-		      <?= form_hidden('categoryId',$categoryData['categoryId'])
+		      <?= form_hidden('categoryId',$multipleData['categoryData']['categoryId'])
 		      ?>
-		      <?= form_hidden('categoryName',$categoryData['categoryName'])
+		      <?= form_hidden('categoryName',$multipleData['categoryData']['categoryName'])
 		      ?>
 		      <?= form_error('docFiles')?>
-		      <div class="text-danger">
-		      <?php if(isset($categoryData['upload_error'])){echo $categoryData['upload_error'];}?>
-		      </div>
+				    <?php if($upload_error = $this->session->flashdata('upload_error')):?>
+					      <div class="text-danger">
+									<?= $upload_error; ?>
+					      </div>
+					<?php endif;?>
 
 		      <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 		    </div>
@@ -57,8 +59,26 @@
 					<th>S.no</th>
 					<th>Document Name</th>
 					<th>Date Of Creation</th>
-					<th colspan="1"><center>Action<center></th>
+					<th><center>Action<center></th>
 				</tr>
+				<?php
+				$i=0;
+				foreach ($multipleData['documentList'] as $document): $i++?>
+				<tr>
+					<td><?= $i; ?></td>
+					<td><?= $document->DocumentName; ?></td>
+					<td><?= date('d/M/Y H:i A ',strtotime($document->Date_of_Creation)); ?></td>
+					<td>
+
+						<?= //form_open(''),
+							#form_hidden('categoryId',$categories->ID),
+							//form_submit(['value'=>'Delete','name'=>'submit','class'=>'delete btn btn-danger']),
+							//form_close();
+							anchor("admin/AdminLogin/deleteDocument/{$document->ID}",'Delete',['class'=>'delete btn btn-danger']);
+						?>
+					</td>
+				</tr>
+			<? endforeach ?>
 			</table>
 		</div>
 	</div>

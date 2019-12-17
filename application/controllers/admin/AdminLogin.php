@@ -14,34 +14,27 @@ public function __construct(){
 		}
 
 		public function validate(){
-
 			$this->form_validation->set_rules('adminemail','Email','trim|required',
 											array('required' => '%s is Required'));
 			$this->form_validation->set_rules('adminpassword','Password','trim|required',
 											array('required' => '%s is Required'));
-
 			if($this->form_validation->run())
 			{
 				$adminemail = $this->input->post('adminemail');
 				$adminpassword = $this->input->post('adminpassword');
-
 				$this->load->model('AdminModel');
 				$adminId = $this->AdminModel->isValidate($adminemail,$adminpassword);
-
 				if($adminId){
 					//$this->load->library('session');
 					// Setting the user id into user session
 					$this->session->set_userdata('adminId',$adminId);
-
 					return redirect('admin/AdminLogin/welcome');
 				}
 				else{
 					$this->session->set_flashdata('login_failed','Invalid Email or Password');
 					return redirect('admin/AdminLogin/index');
 				}
-
 			}
-
 			else
 			{
 				$this->load->view('admin/login');
@@ -55,6 +48,7 @@ public function __construct(){
 
 			$this->load->model('AdminModel');
 			$queryResult = $this->AdminModel->getCategories();
+			#$documentsNumbers = $this->AdminModel->getDocumentsList($CategoryId);
 
 			$this->load->view('admin/dashboard',['categoriesData'=>$queryResult]);
 		}
@@ -110,12 +104,12 @@ public function __construct(){
 			$this->load->model('AdminModel');
 			if($this->AdminModel->deleteCategory($categoryId))
 			{
-					$this->session->set_flashdata('success','Category Created Successfully');
+					$this->session->set_flashdata('success','Category Deleted Successfully');
 					return redirect('admin/AdminLogin/welcome');
 
 			}
 			else{
-					$this->session->set_flashdata('error','Category Adding Failed');
+					$this->session->set_flashdata('error','Category Deletion Failed');
 					return redirect('admin/AdminLogin/welcome');
 
 			}
@@ -166,47 +160,94 @@ public function __construct(){
 
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
-
-			
-			$this->session->set_userdata('adminId',$adminId);
 			$categoryData = $this->input->post();
-			
-			$this->load->model('AdminModel');
-			$this->AdminModel->getDocumentsList($categoryData['categoryId']);
+			if($categoryData){
 
-			$this->load->view('admin/documents',['categoryData'=>$categoryData]);
+				$this->session->set_userdata('categoryData',$categoryData);
+			}
+			else
+			{
+				$categoryData = $this->session->userdata('categoryData');
+			}
+
+			$this->load->model('AdminModel');
+			$documentList = $this->AdminModel->getDocumentsList($categoryData['categoryId']);
+
+			if($categoryData){
+				$multipleData = array('categoryData' => $categoryData, 'documentList' => $documentList);
+				$this->load->view('admin/documents',['multipleData'=>$multipleData]);
+			}
+			else
+			{
+				$this->load->view('admin/documents',['multipleData'=>$multipleData]);
+			}
 		}
+
 		public function uploadFiles(){
 
 			$config=[
 			'upload_path'=>'./uploads/',
-			'allowed_types'=>'gif|jpg|png|jpeg',
+			'allowed_types'=>'doc|docx|txt|odt',
 			];
 
 			$this->load->library('upload', $config);
 			$categoryData = $this->input->post();
+			$files = array();
+
+
+
 			if($this->upload->do_upload('docFiles'))
 			{
+				
 				$data = $this->upload->data();
 				$image_path = base_url("uplads/".$data['raw_name'].$data['file_ext']);
+				$image_name = $data['raw_name'];
 
 				$this->load->model('AdminModel');
-				if($this->AdminModel->addDocuments($categoryData['categoryId'],$image_path))
+				if($this->AdminModel->addDocuments($categoryData['categoryId'],$image_path,$image_name))
 				{
 
 					$this->session->set_flashdata('success','Documents Added Successfully');
-					$this->load->view('admin/documents',['categoryData'=>$categoryData]);
+					return redirect('admin/AdminLogin/documents');
+					//$this->load->view('admin/dashboard',['categoryData'=>$categoryData]);
 				}
 				else{
 					$this->session->set_flashdata('error','Documents Adding Failed');
-					$this->load->view('admin/documents',['categoryData'=>$categoryData]);
+					return redirect('admin/AdminLogin/documents');
+					//$this->load->view('admin/dashboard',['categoryData'=>$categoryData]);
 				}
 
 			}
 			else{
-				$categoryData['upload_error']=$this->upload->display_errors();
-				$this->load->view('admin/documents',['categoryData'=>$categoryData]);
+				$upload_error=$this->upload->display_errors();
+					$this->session->set_flashdata('upload_error',$upload_error);
+				return redirect('admin/AdminLogin/documents');
 			}
+
+		}
+		function deleteDocument($documentId){
+
+			$this->load->model('AdminModel');
+			if($this->AdminModel->deleteDocuments($documentId))
+			{
+					$this->session->set_flashdata('success','Document Deleted Successfully');
+					return redirect('admin/AdminLogin/documents');
+
+			}
+			else{
+					$this->session->set_flashdata('error','Document Deletion Failed');
+					return redirect('admin/AdminLogin/documents');
+
+			}
+		}
+
+		function readDocument(){
+
+		//	$document = file_get_contents(base_url("uploads/Mohit_kumar.docx"));
+			variables: $app= new COM("Word.Application"); $file = "uploads/Mohit_kumar.docx";
+			$app->visible = true; $app->Documents->Open($file);
+			$app->ActiveDocument->PrintOut();
+		//	print_r($document);
 
 		}
 }
