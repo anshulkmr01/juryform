@@ -29,7 +29,10 @@
 		}
 
 		function deleteCategory($categoryId){
-			return $this->db->delete('Documentcategories',['CategoryId'=>$categoryId]);
+//			return $this->db->delete('Documentcategories',['CategoryId'=>$categoryId]);
+				return $this->db->join("DocumentNames", "Documentcategories.CategoryId = DocumentNames.CategoryId")
+				  ->where("DocumentNames.CategoryId", $categoryId)
+				  ->delete("Documentcategories");
 		}
 
 
@@ -39,7 +42,7 @@
 		}
 
 		function addDocuments($categoryId,$image_path,$image_name){
-			return $this->db->insert('DocumentNames',['	CategoryId'=>$categoryId,'DocumentName'=>$image_path,'DocumentName'=>$image_name]);
+			return $this->db->insert('DocumentNames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name]);
 
 		}
 

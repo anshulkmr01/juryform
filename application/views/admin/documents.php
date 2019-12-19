@@ -36,7 +36,7 @@
 			<?php endif;?>
 		      <label for="exampleInputFile">Select Files</label>
 
-		      <?= form_upload(['class'=>'form-control-file','name'=>'docFiles','id'=>'docFiles','aria-describedby'=>'docFiles']);
+		      <?= form_upload(['class'=>'form-control-file','name'=>'docFiles[]','id'=>'docFiles','aria-describedby'=>'docFiles','multiple'=>'true']);
 		      ?>
 		      <?= form_hidden('categoryId',$multipleData['categoryData']['categoryId'])
 		      ?>

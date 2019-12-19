@@ -4,8 +4,8 @@
 	 */
 	class Demo extends CI_Controller
 	{
-			function index(){
-				$this->load->view('Demo');
-			}
+		function index(){
+			$this->load->view('user/demo');
+		}
 	}
 ?>

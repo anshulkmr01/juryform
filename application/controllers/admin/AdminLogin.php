@@ -190,39 +190,48 @@ public function __construct(){
 			'allowed_types'=>'doc|docx|txt|odt',
 			];
 
-			$this->load->library('upload', $config);
 			$categoryData = $this->input->post();
-			$files = array();
 
+			foreach ($_FILES['docFiles']['name'] as $key=>$val) {
 
+		        $_FILES['file']['name']     = $_FILES['docFiles']['name'][$key];
+                $_FILES['file']['type']     = $_FILES['docFiles']['type'][$key];
+                $_FILES['file']['tmp_name'] = $_FILES['docFiles']['tmp_name'][$key];
+                $_FILES['file']['error']     = $_FILES['docFiles']['error'][$key];
+                $_FILES['file']['size']     = $_FILES['docFiles']['size'][$key];
 
-			if($this->upload->do_upload('docFiles'))
+			$this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+			if($this->upload->do_upload('file'))
 			{
 				
 				$data = $this->upload->data();
-				$image_path = base_url("uplads/".$data['raw_name'].$data['file_ext']);
-				$image_name = $data['raw_name'];
+				$image_path[$key]['file_name'] = base_url("uploads/".$data['raw_name'].$data['file_ext']);
+				//$image_name[$key]['file_name'] = $data['file_name'];
+				$image_name[$key]['file_name'] = $data['raw_name'];
 
 				$this->load->model('AdminModel');
-				if($this->AdminModel->addDocuments($categoryData['categoryId'],$image_path,$image_name))
+				if(!$this->AdminModel->addDocuments($categoryData['categoryId'],$image_path[$key]['file_name'],$image_name[$key]['file_name']))
 				{
-
-					$this->session->set_flashdata('success','Documents Added Successfully');
-					return redirect('admin/AdminLogin/documents');
-					//$this->load->view('admin/dashboard',['categoryData'=>$categoryData]);
-				}
-				else{
 					$this->session->set_flashdata('error','Documents Adding Failed');
 					return redirect('admin/AdminLogin/documents');
 					//$this->load->view('admin/dashboard',['categoryData'=>$categoryData]);
 				}
-
 			}
 			else{
 				$upload_error=$this->upload->display_errors();
 					$this->session->set_flashdata('upload_error',$upload_error);
 				return redirect('admin/AdminLogin/documents');
 			}
+			}
+
+			$this->session->set_flashdata('success','Documents Added Successfully');
+					return redirect('admin/AdminLogin/documents');
+					//$this->load->view('admin/dashboard',['categoryData'=>$categoryData]);
+
+
+
 
 		}
 		function deleteDocument($documentId){
