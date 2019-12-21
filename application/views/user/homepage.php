@@ -18,26 +18,36 @@
 			<legend>Categories</legend>
 			<small id="fileHelp" class="form-text text-muted">Click on the Categries and select the Documents for merging.</small>
 			<div class="category-container">
-				<?php foreach($categoriesData->result() as $categories): ?>
+				<?php foreach($categoriesData as $categories): ?>
 				<div class="category-list row">
 					<div class="category col-sm-12">
 						<span class="collapsable-list"><?= $categories->Categoryname ?></span>
 		                <ul class="list-panel">
 		                    <div>
+		                    	<?php
+		                    		if(!empty($categories->sub)){
+
+		                    			foreach($categories->sub as $DocmentData){
+
+		                    	?>
 		                        <li>
 							      <input type="checkbox">
 								      <label data-toggle="modal" data-target="#exampleModalLong">
-								      Document 1
+								      		<?= $DocmentData->DocumentName ?>
 								  	  </label>
 		                        </li>
+		                        <?php
+		                        	}
+		                    		}
+
+		                    		else{
+		                    			?>
 		                        <li>
-							      <input type="checkbox">
-							      <label>Document 1</label>
+							      No Document is Listed for this Category
 		                        </li>
-		                        <li>
-							      <input type="checkbox">
-							      <label>Document 1</label>
-		                        </li>
+		                        <?php
+		                    		}
+		                        ?>
 		                    </div>
 		                </ul>
 					</div>
