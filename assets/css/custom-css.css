@@ -82,6 +82,9 @@ margin-top: 20px;
 .list-panel label{
   cursor: pointer;
 }
+.list-panel label a{
+  text-decoration: none !important;
+}
 .list-panel:hover{
   color: #000
 }

@@ -49,8 +49,9 @@
 		                    	?>
 		                        <li>
 							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docName[]">
-								      <label data-toggle="modal" data-target="#exampleModalLong">
-								      		<?= $DocmentData->DocumentName ?>
+								      <label>
+	    							  	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocmentData->DocumentPath;	?>
+								      		<?= anchor($url,$DocmentData->DocumentName,['target'=>'new']) ?>
 								  	  </label>
 		                        </li>
 		                        <?php
@@ -82,7 +83,7 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					      	...
+					      	<iframe src="http://docs.google.com/gview?url=http://maria.kbrostechno.com/mergedDocs/result.docx&amp;embedded=true"></iframe>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
