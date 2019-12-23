@@ -11,7 +11,7 @@
         <a class="nav-link" href="<?= base_url("user/HomeController/"); ?>">Home</a>
       </li>
       <li class="nav-item">
-        <?#= anchor('','Categries',array('class' => 'nav-link'));?>
+     <!--   <?#= anchor('','Categries',array('class' => 'nav-link'));?> -->
       </li>
       <li class="nav-item">
         <!--a class="nav-link" href="#">About</a-->

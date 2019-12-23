@@ -17,6 +17,23 @@
 		<div class="container">
 			<legend>Categories</legend>
 			<small id="fileHelp" class="form-text text-muted">Click on the Categries and select the Documents for merging.</small>
+			<?= form_open('user/DocMerge') ?>
+			<br>
+			<?= form_submit(['value'=>'Merge','class'=>'btn btn-primary merge-btn',])?>
+			<br>
+				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>
+					    	<div class="merge-message text-success">
+					    		<b>Selected Documents has Merged Succefully</b>
+					    		 <?= anchor($mergedFileSuccess,'Download Now', ['class'=>'badge badge-primary'])?>
+					    	</div>
+					    <?php endif;?>
+
+					    <?php if($mergedFileFailed = $this->session->flashdata('mergedFileFailed')):?>
+					    	<div class="text-danger merge-message">
+					    		<?= $mergedFileFailed; ?>
+					    	</div>
+				<?php endif;?>
+
 			<div class="category-container">
 				<?php foreach($categoriesData as $categories): ?>
 				<div class="category-list row">
@@ -31,7 +48,7 @@
 
 		                    	?>
 		                        <li>
-							      <input type="checkbox">
+							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docName[]">
 								      <label data-toggle="modal" data-target="#exampleModalLong">
 								      		<?= $DocmentData->DocumentName ?>
 								  	  </label>
@@ -53,8 +70,8 @@
 					</div>
 				</div>
 				<?php endforeach ?>
-				
 			</div>
+			<?= form_submit(['value'=>'Merge','class'=>'btn btn-primary merge-btn',])?>
 					<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">

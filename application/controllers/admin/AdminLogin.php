@@ -187,7 +187,7 @@ public function __construct(){
 
 			$config=[
 			'upload_path'=>'./uploads/',
-			'allowed_types'=>'doc|docx|txt|odt',
+			'allowed_types'=>'doc|docx|odt|word',
 			];
 
 			$categoryData = $this->input->post();

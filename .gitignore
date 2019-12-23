@@ -9,6 +9,12 @@ application/logs/*
 !application/*/.htaccess
 
 composer.lock
+application/config/database.php
+application/config/config.php
+application/config/routes.php
+
+uploads
+mergedDocs
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*

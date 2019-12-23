@@ -47,7 +47,7 @@
 					      <div class="text-danger">
 									<?= $upload_error; ?>
 					      </div>
-					<?php endif;?>
+					<?php endif ?>
 
 		      <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 		    </div>
@@ -63,22 +63,22 @@
 				</tr>
 				<?php
 				$i=0;
-				foreach ($multipleData['documentList'] as $document): $i++?>
+				foreach ($multipleData['documentList'] as $document): $i++ ?>
 				<tr>
 					<td><?= $i; ?></td>
 					<td><?= $document->DocumentName; ?></td>
-					<td><?= date('d/M/Y H:i A ',strtotime($document->Date_of_Creation)); ?></td>
+					<td><?= date('d/M/Y H:i A ', strtotime($document->Date_of_Creation)); ?></td>
 					<td>
 
 						<?= //form_open(''),
 							#form_hidden('categoryId',$categories->ID),
 							//form_submit(['value'=>'Delete','name'=>'submit','class'=>'delete btn btn-danger']),
 							//form_close();
-							anchor("admin/AdminLogin/deleteDocument/{$document->ID}",'Delete',['class'=>'delete btn btn-danger']);
+							anchor("admin/AdminLogin/deleteDocument/{$document->ID}",'Delete',['class'=>'delete btn btn-danger'])
 						?>
 					</td>
 				</tr>
-			<? endforeach ?>
+			<?php endforeach ?>
 			</table>
 		</div>
 	</div>

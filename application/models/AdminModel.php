@@ -29,10 +29,9 @@
 		}
 
 		function deleteCategory($categoryId){
-//			return $this->db->delete('Documentcategories',['CategoryId'=>$categoryId]);
-				return $this->db->join("DocumentNames", "Documentcategories.CategoryId = DocumentNames.CategoryId")
-				  ->where("DocumentNames.CategoryId", $categoryId)
-				  ->delete("Documentcategories");
+			if($this->db->delete('DocumentNames',['CategoryId'=>$categoryId]) && $this->db->delete('Documentcategories',['CategoryId'=>$categoryId])){
+				return true;
+			}
 		}
 
 
