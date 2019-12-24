@@ -52,5 +52,11 @@
 		function deleteDocuments($documentId){
 			return $this->db->delete('DocumentNames',['ID'=>$documentId]);
 		}
+
+
+		function updateDocumentName($documentId,$updateDocumentName, $newPath){
+			return $this->db->where('ID',$documentId)
+						->update('DocumentNames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath]);
+		}
 	}
 ?>

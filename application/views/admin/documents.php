@@ -52,22 +52,30 @@
 		      <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 		    </div>
 		    <?= form_submit(['value'=>'Upload','class'=>'btn btn-primary big-button']); ?>
+		    <?= form_close(); 	?>
 			</div>
 		</div>
 			<table>
 				<tr>
 					<th>S.no</th>
 					<th>Document Name</th>
-					<th>Date Of Creation</th>
-					<th><center>Action<center></th>
+					<th>Date Uploaded</th>
+					<th colspan="2"><center>Action<center></th>
 				</tr>
 				<?php
 				$i=0;
 				foreach ($multipleData['documentList'] as $document): $i++ ?>
 				<tr>
 					<td><?= $i; ?></td>
-					<td><?= $document->DocumentName; ?></td>
+					<td>
+						<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$document->DocumentPath; ?>
+						<?= anchor($url,$document->DocumentName,['target'=>'new']) ?>
+					</td>
+
 					<td><?= date('d/M/Y H:i A ', strtotime($document->Date_of_Creation)); ?></td>
+					<td>
+						<a data-toggle="modal" data-item="<?= $document->ID?>" data-id="<?= $document->DocumentName ?>" class="open-AddBookDialog btn btn-primary" href="#renameDocModal">Rename</a>
+					</td>
 					<td>
 
 						<?= //form_open(''),
@@ -80,6 +88,34 @@
 				</tr>
 			<?php endforeach ?>
 			</table>
+					<div class="modal fade" id="renameDocModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLongTitle">Rename</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      <?= form_open('admin/AdminLogin/documentRename'); ?>
+					      	<div class="form-group">
+						      <label for="exampleInputEmail1">Category Name*</label>
+ 							  <input type="hidden" name="docId" id="docId">
+ 							  <input type="hidden" name="docName" id="docName">
+						      <?php echo form_input(['placeholder'=>'New Name','name'=>'docUpdatedName','class'=>'form-control','id'=>'docUpdatedName','aria-describedby'=>'editCategory']); ?>
+
+						      <small id="editCategory" class="form-text text-muted">Enter the New Name For Updation</small>
+						  	</div>
+				    		<?= form_submit(['value'=>'Update','class'=>'btn btn-primary big-button']); ?>
+				    		<?= form_close(); ?>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
 		</div>
 	</div>
 
@@ -87,4 +123,20 @@
 	<?php 
 			globalJs(); 
 	?>
+
+<script type="text/javascript">
+	
+// Setting Value of Docnament in Modal for rename//
+	$(document).on("click", ".open-AddBookDialog", function () {
+     var docName = $(this).data('id');
+     var docId = $(this).data('item');
+     $("#docName").val( docName );
+     $("#docUpdatedName").val( docName );
+     $("#docId").val( docId );
+     // As pointed out in comments, 
+     // it is unnecessary to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+});
+
+</script>
 </html>

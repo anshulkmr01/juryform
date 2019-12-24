@@ -237,6 +237,7 @@ public function __construct(){
 		function deleteDocument($documentId){
 
 			$this->load->model('AdminModel');
+
 			if($this->AdminModel->deleteDocuments($documentId))
 			{
 					$this->session->set_flashdata('success','Document Deleted Successfully');
@@ -257,6 +258,51 @@ public function __construct(){
 			$app->visible = true; $app->Documents->Open($file);
 			$app->ActiveDocument->PrintOut();
 		//	print_r($document);
+
+		}
+
+		function documentRename(){
+
+			$this->form_validation->set_rules('docUpdatedName','Document Name','trim|required',
+											array('required' => '%s is Required'));
+			if ($this->form_validation->run()) {
+
+				$filePath = "uploads/";
+				$documentName = $this->input->post('docName');
+				$documentUpdatedName = $this->input->post('docUpdatedName');
+				$documentId = $this->input->post('docId');
+
+				$old_name = $filePath.$documentName.".docx";
+				$new_name = $filePath.$documentUpdatedName.".docx";
+
+
+				if(file_exists($filePath.$documentName.".docx"))
+		        { 
+		        	if(rename( $old_name, $new_name))
+		        	{
+
+		        	$newPath = base_url($new_name);
+		        	$this->load->model('AdminModel');
+		        	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName, $newPath)){
+
+		        		echo "Rename Successfully" ;
+		        	}
+
+		        	}
+		        	else{
+		        		echo "Error Renaming";
+		        	}
+		        }
+		        else
+		        {
+		        	echo "File Doesen't Exist in Storage";
+		        }
+
+			}
+			else{
+
+				echo "Enter Name ";
+			}
 
 		}
 }

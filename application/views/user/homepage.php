@@ -45,7 +45,6 @@
 		                    		if(!empty($categories->sub)){
 
 		                    			foreach($categories->sub as $DocmentData){
-
 		                    	?>
 		                        <li>
 							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docName[]">
