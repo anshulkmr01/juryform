@@ -313,5 +313,71 @@ public function __construct(){
 			}
 
 		}
+
+		public function createField(){
+
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
+
+			$this->load->model('AdminModel');
+			$fieldList = $this->AdminModel->fieldList();
+			$this->load->view('admin/createField',['filedList'=>$fieldList]);
+		
+		}
+
+		public function fieldValidate(){
+
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
+
+
+			$this->form_validation->set_rules('labelName','Field Label Name','trim|required',
+									array(['required'=>'%s is Required']));
+
+			$this->form_validation->set_rules('labelText','Text to Replace','trim|required',
+									array(['required'=>'%s is Required']));
+
+			if($this->form_validation->run()):
+				$labelName = $this->input->post('labelName');
+
+				$labelText = $this->input->post('labelText');
+
+				$this->load->model('AdminModel');
+
+				if($this->AdminModel->addField($labelName,$labelText)){
+					
+					$this->session->set_flashdata('success','Category Created Successfully');
+					return redirect('admin/AdminLogin/createField');
+
+				}
+			else{
+					$this->session->set_flashdata('error','Category Adding Failed');
+					return redirect('admin/AdminLogin/createField');
+
+			}
+
+			endif;
+
+
+			$this->load->view('admin/createField');
+		}
+
+		function deleteField($fieldId){
+
+			$this->load->model('AdminModel');
+
+			if($this->AdminModel->deleteField($fieldId))
+			{
+					$this->session->set_flashdata('success','Field Deleted Successfully');
+					return redirect('admin/AdminLogin/createField');
+
+			}
+			else{
+					$this->session->set_flashdata('error','Field Deletion Failed');
+					return redirect('admin/AdminLogin/createField');
+
+			}
+		}
+
 }
 ?>

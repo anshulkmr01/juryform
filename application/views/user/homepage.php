@@ -15,7 +15,6 @@
 
 	<div class="container-fluid categories-home">
 		<div class="container">
-			<legend>Categories</legend>
 			<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
 			<?= form_open('user/DocMerge') ?>
 
@@ -25,7 +24,7 @@
 					 <fieldset>
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Name of Plaintiff*</label>
-				      <?php echo form_input(['placeholder'=>'Name of Plaintiff','name'=>'Name_of_Plaintiff','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <?php echo form_input(['placeholder'=>'Name of Plaintiff','name'=>'Name_of_Plaintiff','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
 					  <?php echo form_error('adminemail');?>
 				  	</div>
@@ -35,7 +34,7 @@
 					 <fieldset>
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Name of Defendant*</label>
-				      <?php echo form_input(['placeholder'=>'Name of Defendant','name'=>'Name_of_Defendant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <?php echo form_input(['placeholder'=>'Name of Defendant','name'=>'Name_of_Defendant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
 					  <?php echo form_error('adminemail');?>
 				  	</div>
@@ -45,7 +44,7 @@
 					 <fieldset>
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Name of Cross-Complainant*</label>
-				      <?php echo form_input(['placeholder'=>'Name of Cross-Complainant','name'=>'Name_of_Cross-Complainant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <?php echo form_input(['placeholder'=>'Name of Cross-Complainant','name'=>'Name_of_Cross-Complainant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
 					  <?php echo form_error('adminemail');?>
 				  	</div>
@@ -55,20 +54,40 @@
 					 <fieldset>
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Name of Cross-Defendant*</label>
-				      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Name_of_Cross-Defendant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Name_of_Cross-Defendant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
 					  <?php echo form_error('adminemail');?>
 				  	</div>
 				  </fieldset>
 				</div>
 
+				<?php if($fieldList){
+					foreach ($fieldList as $field) { ?>
+					<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1"><?= $field->FieldLabel; ?>*</label>
+				      <?php echo form_input(['placeholder'=>$field->FieldLabel,'name'=>$field->FieldName,'value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+
+				<?php }}?>
+
 			</div>
 			<div class="row margin-top-25">
 				<div class="col-sm-3">
 					 <fieldset>
 				    <div class="form-group">
-				      <label for="exampleInputEmail1">Whether you are Male/Female/Corporation*</label>
-				      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Subject','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <label for="exampleInputEmail1">Whether if you are Male/Female/Corporation*</label>
+				      <select class="custom-select" name="Subject">
+					      <option selected="" value="*none*">Select:</option>
+					      <option value="his">his</option>
+					      <option value="her">her</option>
+					      <option value="its">its</option>
+					  </select>
 				      <small id="emailHelp" class="form-text text-muted"></small>
 					  <?php echo form_error('adminemail');?>
 				  	</div>
@@ -79,8 +98,8 @@
 				<div class="col-sm-3"></div>
 			</div>
 			<br>
-			<?= form_submit(['value'=>'Merge','class'=>'btn btn-primary merge-btn',])?>
-			<br>
+			<legend>Categories</legend>
+			<small id="fileHelp" class="form-text text-muted">Select the Documents from Categories for merging.</small>
 				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>
 					    	<div class="merge-message text-success">
 					    		<b>Selected Documents has Merged Succefully</b>
@@ -107,7 +126,7 @@
 		                    			foreach($categories->sub as $DocmentData){
 		                    	?>
 		                        <li>
-							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docName[]">
+							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docPath[]">
 								      <label>
 	    							  	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocmentData->DocumentPath;	?>
 								      		<?= anchor($url,$DocmentData->DocumentName,['target'=>'new']) ?>

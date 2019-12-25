@@ -14,6 +14,9 @@
         <?= anchor('admin/AdminLogin/createCategory','Create New Category',array('class' => 'nav-link'));?>
       </li>
       <li class="nav-item">
+        <?= anchor('admin/AdminLogin/createField','Dynamic Fields',array('class' => 'nav-link'));?>
+      </li>
+      <li class="nav-item">
         <!--a class="nav-link" href="#">About</a-->
       </li>
       </ul>

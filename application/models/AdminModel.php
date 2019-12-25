@@ -58,5 +58,17 @@
 			return $this->db->where('ID',$documentId)
 						->update('DocumentNames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath]);
 		}
+
+		function addField($labelName,$labelText){
+			return $this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+		}
+
+		function fieldList(){
+			return $this->db->get('dynamicfields')->result();
+		}
+
+		function deleteField($fieldId){
+			return $this->db->delete('dynamicfields',['ID'=>$fieldId]);
+		}
 	}
 ?>

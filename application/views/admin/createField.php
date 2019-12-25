@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Future Timeline</title>
+	<!-- Global Css using Helper -->
+	<?php 
+			globalCss(); 
+	?>
+	<!--/ Global Css using Helper -->
+</head>
+<body>
+	<!-- Navbar -->
+		<?php include 'navbar.php'?>
+	<!--/ Navbar -->
+
+	<div class="container-fluid createCategory-container">
+		<div class="container">
+			
+				    <?php if($error = $this->session->flashdata('error')):?>
+				    	<div class="alert alert-danger">
+				    		<?= $error; ?>
+				    	</div>
+				    <?php endif;?>
+
+				    <?php if($message = $this->session->flashdata('success')):?>
+				    	<div class="alert alert-success">
+				    		<?= $message; ?>
+				    	</div>
+				    <?php endif;?>
+
+			<div class="row">
+				<div class="col-sm-6">
+				  <fieldset>
+				    <legend>Field List</legend>
+				    <?php if($filedList){?>
+				    <table class="table">
+				    	<tr>
+				    		<th>S.no</th>
+				    		<th>Field Name</th>
+				    		<th>Text to Replace</th>
+				    		<th>Action</th>
+				    	</tr>
+
+				    	<?php
+				    	$i=0;
+				    	 foreach($filedList as $field): $i++?>
+				    		<tr>
+				    			<td><?= $i; ?></td>
+				    			<td><?= $field->FieldLabel; ?></td>
+				    			<td><?= $field->FieldName; ?></td>
+				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
+				    		</tr>
+				    	<?php endforeach;?>
+
+				    </table>
+				    <?php
+					} 
+				    else{
+				    	echo "No Dynamic Field Added";
+				    }
+				    ?>
+				  </fieldset>
+				</div>
+
+				<div class="col-sm-1"></div>
+				<div class="col-sm-5">
+				  <fieldset>
+				    <legend>Add New Field</legend>
+				    <span>Add New Field for users to replace text in the Document Files</span>
+					<?= form_open('admin/AdminLogin/fieldValidate'); ?>
+				    <div class="form-group margin-top-25">
+				      <label for="exampleInputEmail1">Field Label Name*</label>
+
+				      <?php echo form_input(['placeholder'=>'eg. Name of Defendant','name'=>'labelName','value'=>set_value('labelName'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory']); ?>
+				      <small id="newCategory" class="form-text text-muted">User will Identify the input field with this Label</small>
+					  <?php echo form_error('labelName');?>
+				  	</div>
+				    <div class="form-group margin-top-25">
+				      <label for="exampleInputEmail1">Text to Replace*</label>
+
+				      <?php echo form_input(['placeholder'=>'eg. Name','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory']); ?>
+				      <small id="newCategory" class="form-text text-muted">Entered text will be replaced by user input</small>
+					  <?php echo form_error('labelText');?>
+				  	</div>
+				    <?php echo form_submit(['value'=>'Add','class'=>'btn btn-primary']); ?>
+				    <?= form_close(); ?>
+				  </fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+	<?php 
+			globalJs(); 
+	?>
+</html>
