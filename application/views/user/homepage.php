@@ -16,8 +16,68 @@
 	<div class="container-fluid categories-home">
 		<div class="container">
 			<legend>Categories</legend>
-			<small id="fileHelp" class="form-text text-muted">Click on the Categries and select the Documents for merging.</small>
+			<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
 			<?= form_open('user/DocMerge') ?>
+
+			<div class="row margin-top-25">
+				
+				<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1">Name of Plaintiff*</label>
+				      <?php echo form_input(['placeholder'=>'Name of Plaintiff','name'=>'Name_of_Plaintiff','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+				<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1">Name of Defendant*</label>
+				      <?php echo form_input(['placeholder'=>'Name of Defendant','name'=>'Name_of_Defendant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+				<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1">Name of Cross-Complainant*</label>
+				      <?php echo form_input(['placeholder'=>'Name of Cross-Complainant','name'=>'Name_of_Cross-Complainant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+				<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1">Name of Cross-Defendant*</label>
+				      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Name_of_Cross-Defendant','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+
+			</div>
+			<div class="row margin-top-25">
+				<div class="col-sm-3">
+					 <fieldset>
+				    <div class="form-group">
+				      <label for="exampleInputEmail1">Whether you are Male/Female/Corporation*</label>
+				      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Subject','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
+				      <small id="emailHelp" class="form-text text-muted"></small>
+					  <?php echo form_error('adminemail');?>
+				  	</div>
+				  </fieldset>
+				</div>
+				<div class="col-sm-3"></div>
+				<div class="col-sm-3"></div>
+				<div class="col-sm-3"></div>
+			</div>
 			<br>
 			<?= form_submit(['value'=>'Merge','class'=>'btn btn-primary merge-btn',])?>
 			<br>
@@ -72,24 +132,7 @@
 				<?php endforeach ?>
 			</div>
 			<?= form_submit(['value'=>'Merge','class'=>'btn btn-primary merge-btn',])?>
-					<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-					  <div class="modal-dialog" role="document">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLongTitle">Document Name</h5>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					          <span aria-hidden="true">&times;</span>
-					        </button>
-					      </div>
-					      <div class="modal-body">
-					      	<iframe src="http://docs.google.com/gview?url=http://maria.kbrostechno.com/mergedDocs/result.docx&amp;embedded=true"></iframe>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
+			<?= form_close(); ?>
 		</div>
 	</div>
 </body>

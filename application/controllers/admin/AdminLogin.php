@@ -278,6 +278,11 @@ public function __construct(){
 
 				if(file_exists($filePath.$documentName.".docx"))
 		        { 
+
+		        	if(file_exists($filePath.$documentUpdatedName.".docx")){
+						$this->session->set_flashdata('error','File Name Already Used, Chose another name');
+						return redirect('admin/AdminLogin/documents');
+		        	}
 		        	if(rename( $old_name, $new_name))
 		        	{
 
@@ -285,17 +290,20 @@ public function __construct(){
 		        	$this->load->model('AdminModel');
 		        	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName, $newPath)){
 
-		        		echo "Rename Successfully" ;
+		        		$this->session->set_flashdata('success','Rename Successfully');
+						return redirect('admin/AdminLogin/documents');
 		        	}
 
 		        	}
 		        	else{
-		        		echo "Error Renaming";
+					$this->session->set_flashdata('error','File Renaming Error');
+					return redirect('admin/AdminLogin/documents');
 		        	}
 		        }
 		        else
 		        {
-		        	echo "File Doesen't Exist in Storage";
+					$this->session->set_flashdata('error','File Does not exist in Storage');
+					return redirect('admin/AdminLogin/documents');
 		        }
 
 			}
