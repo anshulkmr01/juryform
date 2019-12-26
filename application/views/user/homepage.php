@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My Future Timeline</title>
+	<title>Merge Document</title>
 	<!-- Global Css using Helper -->
 	<?php 
 			globalCss(); 

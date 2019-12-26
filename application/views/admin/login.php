@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>PHP Merge</title>
+	<title>Mereg Docuents Login</title>
 	<?php 
 			globalCss(); 
 	?>

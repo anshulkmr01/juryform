@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My Future Timeline</title>
+	<title>Merge Online</title>
 	<!-- Global Css using Helper -->
 	<?php 
 			globalCss(); 
@@ -12,7 +12,17 @@
 	<!-- Navbar -->
 		<?php include 'navbar.php'?>
 	<!--/ Navbar -->
-
+	<!-- Search Bar -->
+		<div class="container-fluid margin-top-25 row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-4">
+			<form class="my-2 my-lg-0">
+		      <input class="form-control mr-sm-2" type="text" placeholder="Input Field Name for Search" id="myInput" onkeyup="myFunction()">
+		    </form>
+		    </div>
+			<div class="col-sm-3"></div>
+		</div>
+	<!--/ Search Bar -->
 	<div class="container-fluid createCategory-container">
 		<div class="container">
 			
@@ -33,10 +43,10 @@
 				  <fieldset>
 				    <legend>Field List</legend>
 				    <?php if($filedList){?>
-				    <table class="table">
+				    <table class="table" id="myTable">
 				    	<tr>
 				    		<th>S.no</th>
-				    		<th>Field Name</th>
+				    		<th>Field Label Name</th>
 				    		<th>Text to Replace</th>
 				    		<th>Action</th>
 				    	</tr>
