@@ -109,3 +109,7 @@ b{
 .margin-top-25{
   margin-top: 25px;
 }
+@media (min-width: 576px)
+{.modal-dialog {
+    max-width: 85% !important;}
+  }
