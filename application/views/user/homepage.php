@@ -28,86 +28,50 @@
 					      </div>
 					      <div class="modal-body">
 
-								<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
-								<div class="row margin-top-25">
-									
-									<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1">Name of Plaintiff*</label>
-									      <?php echo form_input(['placeholder'=>'Name of Plaintiff','name'=>'Name_of_Plaintiff','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
-									<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1">Name of Defendant*</label>
-									      <?php echo form_input(['placeholder'=>'Name of Defendant','name'=>'Name_of_Defendant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
-									<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1">Name of Cross-Complainant*</label>
-									      <?php echo form_input(['placeholder'=>'Name of Cross-Complainant','name'=>'Name_of_Cross-Complainant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
-									<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1">Name of Cross-Defendant*</label>
-									      <?php echo form_input(['placeholder'=>'Name of Cross-Defendant','name'=>'Name_of_Cross-Defendant','value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
+							<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
+							<div class="row margin-top-25">
+								
+								<?php if($fieldList){
+									foreach ($fieldList as $field) { 
+										if(strpos($field->FieldName,"|")){
+											?>
+												<div class="col-sm-3">
+												  <fieldset>
+												    <div class="form-group">
+												      <label for="exampleInputEmail1"><?= $field->FieldLabel;?>*</label>
+												      <select class="custom-select" name="<?= explode('|', $field->FieldName)[0] ?>">
+													      <option selected="" value="*none*">Select:</option>
 
-									<?php if($fieldList){
-										foreach ($fieldList as $field) { ?>
+													      <?php
+													      	foreach (array_slice(explode('|', $field->FieldName),1) as $fieldName){
+													      		?>
+															      <option value="<?= $fieldName ?>"><?= $fieldName ?></option>
+													      		<?php
+													      	}
+			   												 ?>										  </select>
+												      <small id="emailHelp" class="form-text text-muted"></small>
+													  <?php echo form_error('adminemail');?>
+												  	</div>
+												  </fieldset>
+												</div>
+											<?php
+										}
+										else{
+										?>
 										<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1"><?= $field->FieldLabel; ?>*</label>
-									      <?php echo form_input(['placeholder'=>$field->FieldLabel,'name'=>$field->FieldName,'value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
+										  <fieldset>
+										    <div class="form-group">
+										      <label for="exampleInputEmail1"><?= $field->FieldLabel; ?>*</label>
+										      <?php echo form_input(['placeholder'=>$field->FieldLabel,'name'=>$field->FieldName,'value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
+										      <small id="emailHelp" class="form-text text-muted"></small>
+											  <?php echo form_error('adminemail');?>
+										  	</div>
+										  </fieldset>
+										</div>
 
-									<?php }}?>
+								<?php }}}?>
 
-								</div>
-								<div class="row margin-top-25">
-									<div class="col-sm-3">
-										 <fieldset>
-									    <div class="form-group">
-									      <label for="exampleInputEmail1">Whether if you are Male/Female/Corporation*</label>
-									      <select class="custom-select" name="subject">
-										      <option selected="" value="*none*">Select:</option>
-										      <option value="his">his</option>
-										      <option value="her">her</option>
-										      <option value="its">its</option>
-										  </select>
-									      <small id="emailHelp" class="form-text text-muted"></small>
-										  <?php echo form_error('adminemail');?>
-									  	</div>
-									  </fieldset>
-									</div>
-									<div class="col-sm-3"></div>
-									<div class="col-sm-3"></div>
-									<div class="col-sm-3"></div>
-								</div>
+							</div>
 					      </div>
 					      <div class="modal-footer"><?= form_submit(['value'=>'Submit & Merge','class'=>'btn btn-primary merge-btn',])?>
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

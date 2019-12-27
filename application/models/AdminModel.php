@@ -17,7 +17,7 @@
 		}
 
 		function getCategories(){
-			$query = $this->db->get('Documentcategories');
+			$query = $this->db->get('documentcategories');
 
 		//			$query = $this->db->join('DocumentNames', 'DocumentNames.CategoryId =
 		//			Documentcategories.CategoryId')->get('Documentcategories');
@@ -25,11 +25,11 @@
 		}
 
 		function addCategory($categoryName){
-			return $this->db->insert('Documentcategories',['Categoryname'=>$categoryName]);
+			return $this->db->insert('documentcategories',['Categoryname'=>$categoryName]);
 		}
 
 		function deleteCategory($categoryId){
-			if($this->db->delete('DocumentNames',['CategoryId'=>$categoryId]) && $this->db->delete('Documentcategories',['CategoryId'=>$categoryId])){
+			if($this->db->delete('documentnames',['CategoryId'=>$categoryId]) && $this->db->delete('documentcategories',['CategoryId'=>$categoryId])){
 				return true;
 			}
 		}
@@ -37,26 +37,26 @@
 
 		function updateCategoryName($CategoryId,$editCategory){
 			return $this->db->where('CategoryId',$CategoryId)
-						->update('Documentcategories',['Categoryname'=>$editCategory]);
+						->update('documentcategories',['Categoryname'=>$editCategory]);
 		}
 
 		function addDocuments($categoryId,$image_path,$image_name){
-			return $this->db->insert('DocumentNames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name]);
+			return $this->db->insert('documentnames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name]);
 
 		}
 
 		function getDocumentsList($CategoryId){
-		return $this->db->where(['CategoryId'=>$CategoryId])->get('DocumentNames')->result();
+		return $this->db->where(['CategoryId'=>$CategoryId])->get('documentnames')->result();
 		}
 
 		function deleteDocuments($documentId){
-			return $this->db->delete('DocumentNames',['ID'=>$documentId]);
+			return $this->db->delete('documentnames',['ID'=>$documentId]);
 		}
 
 
 		function updateDocumentName($documentId,$updateDocumentName, $newPath){
 			return $this->db->where('ID',$documentId)
-						->update('DocumentNames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath]);
+						->update('documentnames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath]);
 		}
 
 		function addField($labelName,$labelText){

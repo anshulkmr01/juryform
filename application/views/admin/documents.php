@@ -13,17 +13,6 @@
 		<?php include 'navbar.php'?>
 	<!--/ Navbar -->
 
-	<!-- Search Bar -->
-		<div class="container-fluid margin-top-25 row">
-			<div class="col-sm-8"></div>
-			<div class="col-sm-3">
-			<form class="my-2 my-lg-0">
-		      <input class="form-control mr-sm-2" type="text" placeholder="Input Category Name for Search" id="myInput" onkeyup="myFunction()">
-		    </form>
-		    </div>
-		</div>
-	<!--/ Search Bar -->
-
 
 	<div class="container-fluid table categories-table">
 		<div class="container">
@@ -67,12 +56,24 @@
 		    <?= form_close(); 	?>
 			</div>
 		</div>
-			<table id="myTable">
-				<tr>
-					<th>S.no</th>
+	<!-- Search Bar -->
+		<div class="margin-top-25 row">
+			<div class="col-sm-8"></div>
+			<div class="col-sm-4">
+			<form class="my-2 my-lg-0">
+		      <input class="form-control mr-sm-2" type="text" placeholder="Input Category Name for Search" id="myInput" onkeyup="myFunction()">
+		    </form>
+		    </div>
+		</div>
+	<!--/ Search Bar -->
+
+			<table id="myTable" class="sortable-table">
+				<tr  class="sorter-header">
+					<th class="no-sort">S.no</th>
 					<th>Document Name</th>
-					<th>Date Uploaded</th>
-					<th colspan="2"><center>Action<center></th>
+					<th class="is-date">Date Uploaded</th>
+					<th class="is-date">Date Updated</th>
+					<th colspan="2" class="no-sort"><center>Action<center></th>
 				</tr>
 				<?php
 				$i=0;
@@ -85,6 +86,7 @@
 					</td>
 
 					<td><?= date('d/M/Y H:i A ', strtotime($document->Date_of_Creation)); ?></td>
+					<td><?= date('d/M/Y H:i A ', strtotime($document->DateofUpdation)); ?></td>
 					<td>
 						<a data-toggle="modal" data-item="<?= $document->ID?>" data-id="<?= $document->DocumentName ?>" class="open-AddBookDialog btn btn-primary" href="#renameDocModal">Rename</a>
 					</td>

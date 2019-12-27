@@ -4,7 +4,7 @@
 	{
 		public function get_categories(){
 
-        $parent = $this->db->get('Documentcategories');
+        $parent = $this->db->get('documentcategories');
         
         $categories = $parent->result();
         $i=0;
@@ -19,7 +19,7 @@
     public function sub_categories($id){
 
         $this->db->select('*');
-        $this->db->from('DocumentNames');
+        $this->db->from('documentnames');
         $this->db->where('CategoryId', $id);
 
         $child = $this->db->get();

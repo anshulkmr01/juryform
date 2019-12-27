@@ -341,7 +341,7 @@ public function __construct(){
 				$labelName = $this->input->post('labelName');
 
 				$labelText = $this->input->post('labelText');
-
+				$labelText = str_replace(' ','',$labelText);
 				$this->load->model('AdminModel');
 
 				if($this->AdminModel->addField($labelName,$labelText)){

@@ -43,12 +43,12 @@
 				  <fieldset>
 				    <legend>Field List</legend>
 				    <?php if($filedList){?>
-				    <table class="table" id="myTable">
-				    	<tr>
-				    		<th>S.no</th>
-				    		<th>Field Label Name</th>
-				    		<th>Text to Replace</th>
-				    		<th>Action</th>
+				    <table class="table sortable-table" id="myTable">
+				    	<tr  class="sorter-header">
+				    		<th class="no-sort">S.no</th>
+				    		<th>Label</th>
+				    		<th>Keyword</th>
+				    		<th class="no-sort">Action</th>
 				    	</tr>
 
 				    	<?php
@@ -86,10 +86,10 @@
 					  <?php echo form_error('labelName');?>
 				  	</div>
 				    <div class="form-group margin-top-25">
-				      <label for="exampleInputEmail1">Text to Replace*</label>
+				      <label for="exampleInputEmail1">Keyword*</label>
 
 				      <?php echo form_input(['placeholder'=>'eg. Name','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory']); ?>
-				      <small id="newCategory" class="form-text text-muted">Entered text will be replaced by user input</small>
+				      <small id="newCategory" class="form-text text-muted">A Keyword Must not contain Blank Space</small>
 					  <?php echo form_error('labelText');?>
 				  	</div>
 				    <?php echo form_submit(['value'=>'Add','class'=>'btn btn-primary']); ?>

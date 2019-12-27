@@ -22,6 +22,7 @@
 			$result = $dm->merge($docname, $resultFolder.$resultFile,true);
 			if($result == 0)
 			{
+			chmod($resultFolder.$resultFile,0755);
 				$this->session->set_flashdata('mergedFileSuccess',$resultFolder.$resultFile);
 			}
 

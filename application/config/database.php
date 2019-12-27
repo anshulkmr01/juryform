@@ -70,6 +70,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
+
+/*
+	database credentials for maria.kbrostechno.com
+	
+	'username' => 'u137227160_demo',
+	'password' => 'demo111',
+	'database' => 'u137227160_demo',
+
+
+*/
 $active_group = 'default';
 $query_builder = TRUE;
 

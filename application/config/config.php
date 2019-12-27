@@ -23,7 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+//Development url
 $config['base_url'] = 'http://localhost/PHPmerge';
+
+//Production Url
+//$config['base_url'] = 'http://maria.kbrostechno.com/';
 
 /*
 |--------------------------------------------------------------------------

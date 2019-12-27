@@ -36,12 +36,13 @@
 				    		<?= $error; ?>
 				    	</div>
 				    <?php endif;?>
-			<table id="myTable">
-				<tr>
-					<th>S.no</th>
+			<table id="myTable" class="sortable-table">
+				<tr class="sorter-header">
+					<th class="no-sort">S.no</th>
 					<th>Categories Name</th>
-					<th>Date Of Creation</th>
-					<th colspan="3"><center>Action<center></th>
+					<th class="is-date">Date Of Creation</th>
+					<th class="is-date">Date Of Updation</th>
+					<th colspan="3" class="no-sort"><center>Action<center></th>
 				</tr>
 					<?php
 						$i=0;
@@ -50,6 +51,7 @@
 						<td><?= $i?></td>
 						<td><?= $categories->Categoryname; ?></td>
 						<td><?= date('d / M / Y H:i',strtotime($categories->Dateofcreation)) ?></td>
+						<td><?= date('d / M / Y H:i',strtotime($categories->DateofUpdation)) ?></td>
 						<td>
 						<?= #anchor("admin/AdminLogin/documents/{$categories->CategoryId}",'Explore',['class'=>'btn btn-primary']);
 							form_open('admin/AdminLogin/documents'),
