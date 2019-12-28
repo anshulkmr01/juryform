@@ -102,6 +102,7 @@ public function __construct(){
 
 			$categoryId = $this->input->post('categoryId');
 			$this->load->model('AdminModel');
+			
 			if($this->AdminModel->deleteCategory($categoryId))
 			{
 					$this->session->set_flashdata('success','Category Deleted Successfully');
@@ -234,12 +235,16 @@ public function __construct(){
 
 
 		}
-		function deleteDocument($documentId){
+		function deleteDocument(){
 
 			$this->load->model('AdminModel');
+			$documentId = $this->input->post('documentId');
+			$documentName = $this->input->post('documentName');
+			$filePath = "uploads/";
 
 			if($this->AdminModel->deleteDocuments($documentId))
 			{
+					unlink($filePath.$documentName.".docx");
 					$this->session->set_flashdata('success','Document Deleted Successfully');
 					return redirect('admin/AdminLogin/documents');
 

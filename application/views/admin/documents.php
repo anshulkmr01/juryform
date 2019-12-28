@@ -92,11 +92,11 @@
 					</td>
 					<td>
 
-						<?= //form_open(''),
-							#form_hidden('categoryId',$categories->ID),
-							//form_submit(['value'=>'Delete','name'=>'submit','class'=>'delete btn btn-danger']),
-							//form_close();
-							anchor("admin/AdminLogin/deleteDocument/{$document->ID}",'Delete',['class'=>'delete btn btn-danger'])
+						<?= form_open('admin/AdminLogin/deleteDocument'),
+							form_hidden('documentId',$document->ID),
+							form_hidden('documentName',$document->DocumentName),
+							form_submit(['value'=>'Delete','name'=>'submit','class'=>'delete btn btn-danger']),
+							form_close();
 						?>
 					</td>
 				</tr>

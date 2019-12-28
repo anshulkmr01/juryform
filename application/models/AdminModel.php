@@ -18,9 +18,6 @@
 
 		function getCategories(){
 			$query = $this->db->get('documentcategories');
-
-		//			$query = $this->db->join('DocumentNames', 'DocumentNames.CategoryId =
-		//			Documentcategories.CategoryId')->get('Documentcategories');
 			return $query;
 		}
 
@@ -29,7 +26,13 @@
 		}
 
 		function deleteCategory($categoryId){
+			$documentsName = $this->db->select('DocumentName')->where(['CategoryId'=>$categoryId])->get('documentnames')->result();
+			$filePath = "uploads/";
 			if($this->db->delete('documentnames',['CategoryId'=>$categoryId]) && $this->db->delete('documentcategories',['CategoryId'=>$categoryId])){
+
+				foreach ($documentsName as $name) {
+					unlink($filePath.$name->DocumentName.".docx");
+				}
 				return true;
 			}
 		}
