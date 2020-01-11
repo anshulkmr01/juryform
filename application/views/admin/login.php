@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mereg Docuents Login</title>
+	<title>Merge Document to JURY INSTRUCTIONS Login</title>
 	<?php 
 			globalCss(); 
 	?>

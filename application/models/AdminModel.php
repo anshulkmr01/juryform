@@ -4,8 +4,8 @@
 	{
 		function isValidate($adminemail,$adminpassword)
 		{
-				$query = $this->db->where(['adminemail'=>$adminemail, 'adminpassword'=>$adminpassword])
-									->get('Admins');
+				$query = $this->db->where(['adminemail'=>$adminemail, 'adminpassword'=>md5($adminpassword)])
+									->get('admins');
 				if($query->num_rows())
 				{
 					return $query->row()->id;
@@ -57,13 +57,36 @@
 		}
 
 
-		function updateDocumentName($documentId,$updateDocumentName, $newPath){
+		function updateDocumentName($documentId,$updateDocumentName, $newPath, $docRevisedDate){
 			return $this->db->where('ID',$documentId)
-						->update('documentnames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath]);
+						->update('documentnames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath, 'customDate'=>$docRevisedDate]);
 		}
 
 		function addField($labelName,$labelText){
 			return $this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+		}
+
+
+		function updateField($labelName,$labelText,$fieldId){
+			return $this->db->where('ID',$fieldId)
+							 ->update('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+		}
+
+		function changeAdminCredentials($adminId,$adminName,$adminPassword){
+			return $this->db->where('id',$adminId)
+							 ->update('admins',['adminemail'=>$adminName, 'adminpassword'=>md5($adminPassword)]);
+		}
+
+		function checkAdmin($adminemail){
+			$query =  $this->db->where('adminemail',$adminemail)->get('admins');
+			if($query->num_rows())
+				{
+					return $query->row()->adminpassword;
+				}
+				else
+				{
+					return false;
+				}
 		}
 
 		function fieldList(){

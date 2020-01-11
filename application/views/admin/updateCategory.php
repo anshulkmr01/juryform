@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Update Category</title>
+	<title>Merge Document to JURY INSTRUCTIONS</title>
 	<!-- Global Css using Helper -->
 	<?php 
 			globalCss(); 

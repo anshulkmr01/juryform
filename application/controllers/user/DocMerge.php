@@ -9,11 +9,20 @@
 			$dm = new DocxMerge();
 			$resultFile = 'result.docx';
 			$resultFolder = 'mergedDocs/';
-
+			$emptyVar = '*none*';
 			$docPaths = $this->input->post('docPath');
 			$variables = $this->input->post();
 			unset($variables['docPath']);
 
+
+			foreach ($variables as $key => $value) {
+
+				if(empty($value)){
+
+					$variables[$key] = $emptyVar;
+					}
+			}
+			// $docname[] = base_url('uploads/fix.docx');
 			foreach ($docPaths as $document) {
 
 				$docname[] = self::textReplace($variables, $document);
@@ -32,6 +41,7 @@
 			
 			return redirect('user/HomeController');
 		}
+
 
 		function textReplace($variables,$document){
 			$resultFolder = 'mergedDocs/textReplaced/';

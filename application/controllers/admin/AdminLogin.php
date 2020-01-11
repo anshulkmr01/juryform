@@ -10,7 +10,7 @@ public function __construct(){
 		{
 			if($this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/welcome');
-			$this->load->view('admin/login');
+				$this->load->view('admin/login');
 		}
 
 		public function validate(){
@@ -28,6 +28,7 @@ public function __construct(){
 					//$this->load->library('session');
 					// Setting the user id into user session
 					$this->session->set_userdata('adminId',$adminId);
+					$this->session->set_userdata('adminemail',$adminemail);
 					return redirect('admin/AdminLogin/welcome');
 				}
 				else{
@@ -57,6 +58,63 @@ public function __construct(){
 			$this->session->unset_userdata('adminId');
 			$this->session->set_flashdata('logout_success',"Logout Successfully");
 			return redirect ('admin/AdminLogin/');
+		}
+
+		public function settings(){
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
+
+			$this->load->view('admin/settings');
+		}
+
+		public function changePassword(){
+
+			$this->form_validation->set_rules('newAdminName','Admin Name','trim|required',
+									array(['required'=>'%s is Required']));
+			$this->form_validation->set_rules('newAdminPassword','Admin Password','trim|required',
+									array(['required'=>'%s is Required']));
+
+			if($this->form_validation->run()){
+			$adminId = $this->input->post('adminId');
+			$adminName = $this->input->post('newAdminName');
+			$adminPassword = $this->input->post('newAdminPassword');
+
+			$this->load->model('AdminModel');
+			if($this->AdminModel->changeAdminCredentials($adminId,$adminName,$adminPassword)){
+					$this->session->set_flashdata('logout_success','Credentials Changed Succesfully, Login Again');
+					$this->session->unset_userdata('adminId');
+					return redirect('admin/AdminLogin');
+			}
+			}
+			else{
+				$this->load->view('admin/settings');
+			}
+		}
+
+		public function recoverPassword(){
+				$this->load->view('admin/recoverPassword');
+		}
+		public function sendPasswordEmail(){
+			$this->form_validation->set_rules('adminEmail','Admin Email','trim|required',array(['required' => '$s is Required']));
+
+				$adminemail = $this->input->post('adminEmail');
+
+			if ($this->form_validation->run()) {
+				$adminEmail = $this->input->post('adminemail');
+				$this->load->model('AdminModel');
+				if($this->AdminModel->checkAdmin($adminemail)){
+					echo "ok";
+				}
+				else{
+					$this->session->set_flashdata('error','Unuthorised Email Address');
+					return redirect('admin/AdminLogin/recoverPassword');
+				}
+			}
+
+			else
+			{
+				$this->load->view('admin/recoverPassword');
+			}
 		}
 
 		public function createCategory(){
@@ -100,7 +158,7 @@ public function __construct(){
 
 		public function deleteCategory(){
 
-			$categoryId = $this->input->post('categoryId');
+			$categoryId = $_GET['categoryId'];
 			$this->load->model('AdminModel');
 			
 			if($this->AdminModel->deleteCategory($categoryId))
@@ -116,16 +174,33 @@ public function __construct(){
 			}
 		}
 
+		public function deleteSelectedCategories(){
+					$categoryIds = $this->input->post('categoryIds');
+					$this->load->model('AdminModel');
+					foreach ($categoryIds as $categoryId) {
+
+						if(!$this->AdminModel->deleteCategory($categoryId))
+						{
+								$this->session->set_flashdata('error','Category Deletion Failed');
+								return redirect('admin/AdminLogin/welcome');
+						}
+
+					}
+						$this->session->set_flashdata('success','Category Deleted Successfully');
+						return redirect('admin/AdminLogin/welcome');
+
+								
+		}
+
 
 		public function editCategory(){
 
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
 
-
-			$categoryName = $this->input->post('categoryName');
-			$categoryId = $this->input->post('categoryId');
-			$this->load->view('admin/updateCategory',['categoryName'=>$categoryName,'categoryId'=>$categoryId]);
+				$categoryName = $_GET['categoryName'];
+				$categoryId = $_GET['categoryId'];
+				$this->load->view('admin/updateCategory',['categoryName'=>$categoryName,'categoryId'=>$categoryId]);
 		}
 
 		public function updateCategory(){
@@ -161,7 +236,23 @@ public function __construct(){
 
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
-			$categoryData = $this->input->post();
+
+			if(isset($_GET['categoryId'])){
+					$this->session->set_userdata('categoryId',$_GET['categoryId']);
+			}
+
+			if(isset($_GET['categoryName'])){
+				$this->session->set_userdata('categoryName',$_GET['categoryName']);
+			}
+
+				$categoryName = $this->session->userdata('categoryName');
+				$categoryId = $this->session->userdata('categoryId');
+
+		
+			$categoryData['categoryId'] = $categoryId;
+
+			$categoryData['categoryName'] = $categoryName;
+
 			if($categoryData){
 
 				$this->session->set_userdata('categoryData',$categoryData);
@@ -188,7 +279,7 @@ public function __construct(){
 
 			$config=[
 			'upload_path'=>'./uploads/',
-			'allowed_types'=>'doc|docx|odt|word',
+			'allowed_types'=>'docx',
 			];
 
 			$categoryData = $this->input->post();
@@ -238,8 +329,10 @@ public function __construct(){
 		function deleteDocument(){
 
 			$this->load->model('AdminModel');
-			$documentId = $this->input->post('documentId');
-			$documentName = $this->input->post('documentName');
+			// $documentId = $this->input->post('documentId');
+			// $documentName = $this->input->post('documentName');
+			 $documentId = $_GET['documentId'];
+			 $documentName = $_GET['documentName'];
 			$filePath = "uploads/";
 
 			if($this->AdminModel->deleteDocuments($documentId))
@@ -254,6 +347,35 @@ public function __construct(){
 					return redirect('admin/AdminLogin/documents');
 
 			}
+		}
+
+		function deleteSelected(){
+
+			$docNames = $this->input->post('docName');
+
+			$this->load->model('AdminModel');
+			$filePath = "uploads/";
+
+			foreach ($docNames as $docName) {
+			$docDetails = explode('&', $docName);
+
+			$documentId = $docDetails[0];
+			$documentName = $docDetails[1];
+
+				if($this->AdminModel->deleteDocuments($documentId))
+				{
+						unlink($filePath.$documentName.".docx");
+
+				}
+				else{
+						$this->session->set_flashdata('error','Error in Deletion');
+						return redirect('admin/AdminLogin/documents');
+
+				}
+			}
+
+						$this->session->set_flashdata('success','Selected Documents Deleted Successfully');
+						return redirect('admin/AdminLogin/documents');
 		}
 
 		function readDocument(){
@@ -276,10 +398,12 @@ public function __construct(){
 				$documentName = $this->input->post('docName');
 				$documentUpdatedName = $this->input->post('docUpdatedName');
 				$documentId = $this->input->post('docId');
+				$docRevisedDate = $this->input->post('docRevisedDate');
 
 				$old_name = $filePath.$documentName.".docx";
 				$new_name = $filePath.$documentUpdatedName.".docx";
 
+				if(isset($_POST['submit'])){
 
 				if(file_exists($filePath.$documentName.".docx"))
 		        { 
@@ -293,7 +417,7 @@ public function __construct(){
 
 		        	$newPath = base_url($new_name);
 		        	$this->load->model('AdminModel');
-		        	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName, $newPath)){
+		        	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName,$newPath,$docRevisedDate)){
 
 		        		$this->session->set_flashdata('success','Rename Successfully');
 						return redirect('admin/AdminLogin/documents');
@@ -310,12 +434,25 @@ public function __construct(){
 					$this->session->set_flashdata('error','File Does not exist in Storage');
 					return redirect('admin/AdminLogin/documents');
 		        }
+		    }
+
+		    elseif(isset($_POST['reviseDate'])){
+		    	
+	        	$this->load->model('AdminModel');
+	        	$newPath = base_url($old_name);
+		    	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName,$newPath,$docRevisedDate)){
+
+		        		$this->session->set_flashdata('success','Date Revised Successfully');
+						return redirect('admin/AdminLogin/documents');
+		        	}
+		    }
 
 			}
-			else{
-
-				echo "Enter Name ";
-			}
+		        else
+		        {
+					$this->session->set_flashdata('error','Document Name is Required');
+					return redirect('admin/AdminLogin/documents');
+		        }
 
 		}
 
@@ -351,23 +488,58 @@ public function __construct(){
 
 				if($this->AdminModel->addField($labelName,$labelText)){
 					
-					$this->session->set_flashdata('success','Category Created Successfully');
+					$this->session->set_flashdata('success','Fields Created Successfully');
 					return redirect('admin/AdminLogin/createField');
 
 				}
 			else{
-					$this->session->set_flashdata('error','Category Adding Failed');
+					$this->session->set_flashdata('error','Fields Adding Failed');
+					return redirect('admin/AdminLogin/createField');
+
+			}
+
+			endif;
+			return redirect('admin/AdminLogin/createField');
+		}
+
+		public function fieldUpdate(){
+
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
+
+			$this->form_validation->set_rules('labelName','Field Label Name','trim|required');
+
+			$this->form_validation->set_rules('labelText','Text to Replace','trim|required');
+
+			if($this->form_validation->run()):
+				$labelName = $this->input->post('labelName');
+				$labelText = $this->input->post('labelText');
+				$fieldId = $this->input->post('fieldId');
+
+				$labelText = str_replace(' ','',$labelText);
+				$this->load->model('AdminModel');
+
+				if($this->AdminModel->updateField($labelName,$labelText,$fieldId)){
+					
+					$this->session->set_flashdata('success','Fields Updated Successfully');
+					return redirect('admin/AdminLogin/createField');
+
+				}
+			else{
+					$this->session->set_flashdata('error','Field Updatings Failed');
 					return redirect('admin/AdminLogin/createField');
 
 			}
 
 			endif;
 
-
-			$this->load->view('admin/createField');
+			$this->session->set_flashdata('emptyFields','Both Fields are Required for Updation');
+			return redirect('admin/AdminLogin/createField');
 		}
 
 		function deleteField($fieldId){
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
 
 			$this->load->model('AdminModel');
 

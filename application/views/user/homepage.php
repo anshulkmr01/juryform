@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Merge Document</title>
+	<title>Merge Document to JURY INSTRUCTIONS</title>
 	<!-- Global Css using Helper -->
 	<?php 
 			globalCss(); 
@@ -38,7 +38,7 @@
 												<div class="col-sm-3">
 												  <fieldset>
 												    <div class="form-group">
-												      <label for="exampleInputEmail1"><?= $field->FieldLabel;?>*</label>
+												      <label for="exampleInputEmail1"><?= $field->FieldLabel;?></label>
 												      <select class="custom-select" name="<?= explode('|', $field->FieldName)[0] ?>">
 													      <option selected="" value="*none*">Select:</option>
 
@@ -61,7 +61,7 @@
 										<div class="col-sm-3">
 										  <fieldset>
 										    <div class="form-group">
-										      <label for="exampleInputEmail1"><?= $field->FieldLabel; ?>*</label>
+										      <label for="exampleInputEmail1"><?= $field->FieldLabel; ?></label>
 										      <?php echo form_input(['placeholder'=>$field->FieldLabel,'name'=>$field->FieldName,'value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
 										      <small id="emailHelp" class="form-text text-muted"></small>
 											  <?php echo form_error('adminemail');?>
@@ -70,8 +70,19 @@
 										</div>
 
 								<?php }}}?>
-
 							</div>
+								<!-- <div>
+									<ul class="list-none">
+										<li>
+											<div>
+									    	  <input type="checkbox" value="" name="ReplaceAgreeCheck">
+										      <label>
+										      	Whether include in the jury instruction or not
+										  	  </label>
+										  	</div>
+				                        </li>
+				                    </ul>
+								</div> -->
 					      </div>
 					      <div class="modal-footer"><?= form_submit(['value'=>'Submit & Merge','class'=>'btn btn-primary merge-btn',])?>
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -81,7 +92,7 @@
 					</div>
 
 			<legend>Categories</legend>
-			<small id="fileHelp" class="form-text text-muted">Select the Documents from Categories for merging.</small>
+			<small id="fileHelp" class="form-text text-muted">Select the Jury Instructions.</small>
 				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>
 					    	<div class="merge-message text-success">
 					    		<b>Selected Documents has Merged Succefully</b>
@@ -111,7 +122,7 @@
 							      <input type="checkbox" value="<?php echo $DocmentData->DocumentPath ?>" name="docPath[]">
 								      <label>
 	    							  	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocmentData->DocumentPath;	?>
-								      		<?= anchor($url,$DocmentData->DocumentName,['target'=>'new']) ?>
+								      		<?= anchor($url,str_replace('_',' ',$DocmentData->DocumentName),['target'=>'new']) ?>
 								  	  </label>
 		                        </li>
 		                        <?php
@@ -132,7 +143,7 @@
 				</div>
 				<?php endforeach ?>
 			</div>
-			<a href="#textReplaceModal" data-toggle="modal" class="btn btn-primary merge-btn">Merge</a>
+			<a href="#textReplaceModal" data-toggle="modal" class="btn btn-primary merge-btn">Create</a>
 			<?= form_close(); ?>
 		</div>
 	</div>
