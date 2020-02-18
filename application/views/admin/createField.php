@@ -75,11 +75,13 @@
 					<!--/ Search Bar -->
 				    <?php if($filedList){?>
 				    <table class="table sortable-table" id="myTable"style="text-align: center;">
+				    	<?= form_open('admin/AdminLogin/deleteSelectedFields')?>
 				    	<tr  class="sorter-header">
 				    		<th class="no-sort">S.no</th>
 				    		<th>Label</th>
 				    		<th>Keyword</th>
 				    		<th colspan="2" class="no-sort">Action</th>
+				    		<th class="no-sort"><center><label><input type="checkbox" name="sample" class="selectall" style="display:none;"/> <span style="cursor: pointer;">Select all</span></label></center></th>
 				    	</tr>
 
 				    	<?php
@@ -93,14 +95,31 @@
 									<a data-toggle="modal" data-item="<?= $field->FieldLabel ?>" data-id="<?= $field->ID ?>" data-user="<?= $field->FieldName ?>" class="open-updateFields btn btn-primary btn-sm" href="#renameDynamicFields">Edit</a>
 								</td>
 				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
+				    			<td><center><input type="checkbox" value="<?= $field->ID ?>" name="fieldId[]"></center></td>
 				    		</tr>
 				    	<?php endforeach;?>
-
+				    	<?php if(isset($field->ID)) {?>
+					<tfoot>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><?= form_submit(['value'=>'Delete Selected','name'=>'submit','class'=>'delete btn btn-danger btn-sm']) ?></td>
+						</tr>
+						</tfoot>
+						<?php }
+							else{
+								echo "No data to Show";
+							}
+						?>
+				    	<?= form_close(); ?>
 				    </table>
 				    <?php
 					} 
 				    else{
-				    	echo "No Dynamic Field Added";
+				    	echo "<br> No Data to show";
 				    }
 				    ?>
 				  </fieldset>

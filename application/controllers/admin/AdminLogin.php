@@ -192,6 +192,22 @@ public function __construct(){
 								
 		}
 
+		public function deleteSelectedFields(){
+			$fieldIds = $this->input->post('fieldId');
+			$this->load->model('AdminModel');
+					foreach ($fieldIds as $fieldId) {
+
+						if(!$this->AdminModel->deleteField($fieldId))
+						{
+								$this->session->set_flashdata('error','Field Deletion Failed');
+								return redirect('admin/AdminLogin/createField');
+						}
+
+					}
+						$this->session->set_flashdata('success','Field Deleted Successfully');
+						return redirect('admin/AdminLogin/createField');
+		}
+
 
 		public function editCategory(){
 

@@ -16,7 +16,7 @@
 		<div class="container-fluid margin-top-25 row">
 			<div class="col-sm-8"></div>
 			<div class="col-sm-3">
-			<form class=" my-2 my-lg-0">
+			<form class="my-2 my-lg-0">
 		      <input class="form-control mr-sm-2" type="text" placeholder="Input Category Name for Search" id="myInput" onkeyup="myFunction()">
 		    </form>
 		    </div>

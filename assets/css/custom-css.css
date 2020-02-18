@@ -8,6 +8,7 @@ th{
     color: #000;
 }
 table, .createCategory-container, .document-add, .categories-home, .category-container{
+  margin-bottom: 50px;
 	margin-top: 5%;
 }
 .categories-home small{

@@ -107,11 +107,25 @@
 				<?php endif;?>
 
 			<div class="category-container">
+				<?php $counter = 0;?>
 				<?php foreach($categoriesData as $categories): ?>
 				<div class="category-list row">
-					<div class="category col-sm-12">
+					<div class="category col-sm-12"><label class="dateRevised" style="float: right;">Date Revised</label>
+						<?php
+		                	if ($counter==0) {
+		                		?>
+								<span class="collapsable-list active-list"><?= $categories->Categoryname ?></span>
+		                		<ul class="list-panel" style="max-height: fit-content">
+		                		<?php
+		                	}
+		                	else
+		                	{
+						?>
 						<span class="collapsable-list"><?= $categories->Categoryname ?></span>
 		                <ul class="list-panel">
+		                	<?php
+		                	}
+		                	 $counter++; ?>
 		                    <div>
 		                    	<?php
 		                    		if(!empty($categories->sub)){
@@ -124,6 +138,11 @@
 	    							  	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocmentData->DocumentPath;	?>
 								      		<?= anchor($url,str_replace('_',' ',$DocmentData->DocumentName),['target'=>'new']) ?>
 								  	  </label>
+								  		<label style="float: right; cursor: default;">
+								  	  	<?php if($DocmentData->customDate)
+								  	  		echo date_format(date_create($DocmentData->customDate),"m/Y") ;
+								  	  		else echo date('m/Y', strtotime($DocmentData->DateofUpdation));?>
+										</label>
 		                        </li>
 		                        <?php
 		                        	}

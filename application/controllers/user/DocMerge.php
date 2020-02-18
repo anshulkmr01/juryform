@@ -4,6 +4,13 @@
 
 		class DocMerge extends CI_controller{
 
+			
+		function __construct(){
+			parent::__construct();
+			if(!$this->session->userdata('userId'))
+				return redirect('loginUser');
+		}
+
 		function index(){
 
 			$dm = new DocxMerge();
