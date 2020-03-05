@@ -14,6 +14,9 @@
 	<!--/ Navbar -->
 	<div class="container-fluid createCategory-container">
 		<div class="container">
+			<div class="row">
+				<div class="col-sm-5">
+
 			
 				    <?php if($error = $this->session->flashdata('error')):?>
 				    	<div class="alert alert-danger">
@@ -33,8 +36,6 @@
 				    	</div>
 				    <?php endif;?>
 
-			<div class="row">
-				<div class="col-sm-5">
 				  <fieldset>
 				    <legend>Add New Field</legend>
 				    <span>Add New Field for users to replace text in the Document Files</span>
@@ -42,16 +43,41 @@
 				    <div class="form-group margin-top-25">
 				      <label for="exampleInputEmail1">Field Label Name*</label>
 
-				      <?php echo form_input(['placeholder'=>'eg. Name of Defendant','name'=>'labelName','value'=>set_value('labelName'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory']); ?>
+				      <?php echo form_input(['placeholder'=>'eg. Name of Defendant','name'=>'labelName','value'=>set_value('labelName'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory','required'=>'required']); ?>
 				      <small id="newCategory" class="form-text text-muted">User will Identify the input field with this Label</small>
 					  <?php echo form_error('labelName');?>
 				  	</div>
 				    <div class="form-group margin-top-25">
 				      <label for="exampleInputEmail1">Keyword*</label>
 
-				      <?php echo form_input(['placeholder'=>'eg. Name','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory']); ?>
+				      <?php echo form_input(['placeholder'=>'eg. Name','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory','required'=>'required']); ?>
 				      <small id="newCategory" class="form-text text-muted">A Keyword Must not contain Blank Space</small>
 					  <?php echo form_error('labelText');?>
+				  	</div>
+
+					 <?php if($documents){?>
+				  	 <div class="form-group">
+					    <div class="custom-control custom-radio">
+					      <input type="radio" id="customRadio1" name="radio_flavour" onclick="handleClick(this);" value="allDocuments" class="custom-control-input" checked>
+					      <label class="custom-control-label" for="customRadio1">All Documents</label>
+					    </div>
+					    <div class="custom-control custom-radio">
+					      <input type="radio" id="customRadio2" onclick="handleClick(this);" class="custom-control-input select_list" name="radio_flavour" value="multipleDocuments">
+					      <label class="custom-control-label" for="customRadio2">Select Single or Multiple*</label>
+						    <select class="custom-select" id="documentSelect" name="documents[]" multiple required disabled="disabled">
+						      <?php foreach($documents as $document){?>
+						      	<option value="<?= $document->ID?>/amg/<?= $document->DocumentName?>"><?= $document->DocumentName?></option>
+						      <?php } ?>
+						    </select>
+					      <small id="newCategory" class="form-text text-muted">Select single or multiple document by holding down Ctrl button for adding fields with</small>
+						  <?php echo form_error('labelText');?>
+					    </div>
+					  </div>
+					<?php } else{?>
+						<div style="color: red">No documents to display</div>
+					<?php } ?>
+				    <div class="form-group margin-top-25">
+
 				  	</div>
 				    <?php echo form_submit(['value'=>'Add','class'=>'btn btn-primary']); ?>
 				    <?= form_close(); ?>
@@ -96,6 +122,10 @@
 								</td>
 				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
 				    			<td><center><input type="checkbox" value="<?= $field->ID ?>" name="fieldId[]"></center></td>
+				    			<tr>
+				    				<td></td>
+				    				<td><?= $field->docname;?></td>
+				    			</tr>
 				    		</tr>
 				    	<?php endforeach;?>
 				    	<?php if(isset($field->ID)) {?>
@@ -172,6 +202,9 @@
 	<?php 
 			globalJs(); 
 	?>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript">
 	
 // Setting Value of Docnament in Modal for rename//
@@ -184,5 +217,16 @@
      $("#fieldId").val( labelId );
 });
 
+	//Enable HTML select when radio button is checked or vice-versa
+function handleClick(myRadio) {
+	if(myRadio.value== "multipleDocuments")
+	{
+	document.getElementById("documentSelect").disabled = false;
+	}
+	else
+	{
+	document.getElementById("documentSelect").disabled = true;
+	}
+}
 </script>
 </html>

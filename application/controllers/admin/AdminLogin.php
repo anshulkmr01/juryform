@@ -478,8 +478,9 @@ public function __construct(){
 				return redirect('admin/AdminLogin/');
 
 			$this->load->model('AdminModel');
-			$fieldList = $this->AdminModel->fieldList();
-			$this->load->view('admin/createField',['filedList'=>$fieldList]);
+			$fieldList = $this->AdminModel->allFieldList();	
+			$documents = $this->AdminModel->allDocuments();
+			$this->load->view('admin/createField',['filedList'=>$fieldList, 'documents'=>$documents]);
 		
 		}
 
@@ -495,14 +496,28 @@ public function __construct(){
 			$this->form_validation->set_rules('labelText','Text to Replace','trim|required',
 									array(['required'=>'%s is Required']));
 
-			if($this->form_validation->run()):
-				$labelName = $this->input->post('labelName');
+			// $this->form_validation->set_rules('documents','Select','trim|required',
+			// 						array(['required'=>'%s at least one option']));
 
-				$labelText = $this->input->post('labelText');
+			if($this->form_validation->run()){
+
+				$fieldsData = $this->input->post();
+
+				$radioOption = $fieldsData['radio_flavour'];
+				$labelName = $fieldsData['labelName'];
+				$labelText = $fieldsData['labelText'];
 				$labelText = str_replace(' ','',$labelText);
+
+				if($radioOption == 'multipleDocuments'){
+					$selectedDocuments = $fieldsData['documents'];
+				}
+				else{
+					$selectedDocuments[] = $radioOption;
+				}
+
 				$this->load->model('AdminModel');
 
-				if($this->AdminModel->addField($labelName,$labelText)){
+				if($this->AdminModel->addField($labelName,$labelText,$selectedDocuments)){
 					
 					$this->session->set_flashdata('success','Fields Created Successfully');
 					return redirect('admin/AdminLogin/createField');
@@ -514,8 +529,11 @@ public function __construct(){
 
 			}
 
-			endif;
+			}
+			else{
+			$this->session->set_flashdata('error','Input required data');
 			return redirect('admin/AdminLogin/createField');
+		}
 		}
 
 		public function fieldUpdate(){

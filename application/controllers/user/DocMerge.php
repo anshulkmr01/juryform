@@ -14,7 +14,7 @@
 		function index(){
 
 			$dm = new DocxMerge();
-			$resultFile = 'result.docx';
+			$resultFile = 'Merged_File.docx';
 			$resultFolder = 'mergedDocs/';
 			$emptyVar = '*none*';
 			$docPaths = $this->input->post('docPath');
@@ -52,7 +52,7 @@
 
 		function textReplace($variables,$document){
 			$resultFolder = 'mergedDocs/textReplaced/';
-			$documentName  = ltrim($document, base_url('uploads/')); 
+			$documentName  = basename($document); 
 			$templateProcessor = new TemplateProcessor($document);
 
 			foreach ($variables as $key => $value) {

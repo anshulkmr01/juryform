@@ -13,9 +13,9 @@
 			<div class="col-sm-3">
 			</div>
 			<div class="col-sm-5">
-				<?= form_open('recoverPasswordSendEmail'); ?>
+				<?= form_open('setNewPassword'); ?>
 				  <fieldset>
-				    <legend>Recover Password</legend>
+				    <legend>Set New Password</legend>
 
 				    <?php if($error = $this->session->flashdata('error')):?>
 				    	<div class="alert alert-danger">
@@ -30,19 +30,16 @@
 				    <?php endif;?>
 
 				    <div class="form-group">
-				      <label for="exampleInputEmail1">Email*</label>
+				      <label for="exampleInputEmail1">Password*</label>
 
-				      <?php echo form_input(['placeholder'=>'Email','name'=>'userEmail','value'=>set_value('userEmail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'userEmail']); ?>
+				      <?php echo form_input(['placeholder'=>'Password','name'=>'newPassword','value'=>set_value('newPassword'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'newPassword']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
-					  <?php echo form_error('userEmail');?>
+					  <?php echo form_error('newPassword');?>
 				  	</div>
 
-				    <?php echo form_submit(['value'=>'Send Email','class'=>'btn btn-primary']); ?>
+				    <?php echo form_submit(['value'=>'Change','class'=>'btn btn-primary']); ?>
 				  </fieldset>
 				  <br>
-				  <div class="form-group">
-				      <label for="exampleInputEmail1">Remember Password? <?= anchor('loginUser','Login here')?></label>
-				  </div>
 			</div>
 			<div class="col-sm-4">
 			</div>

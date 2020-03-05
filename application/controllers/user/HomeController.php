@@ -17,9 +17,7 @@
 		public function index(){
 
 		$queryResult = $this->UserModel->get_categories();
-		$fieldList = $this->AdminModel->fieldList();
-
-		$this->load->view('user/homepage',['categoriesData'=>$queryResult,'fieldList'=>$fieldList]);
+		$this->load->view('user/homepage',['categoriesData'=>$queryResult]);
 	    }
 
 	    public function settings(){
@@ -45,5 +43,42 @@
 				$this->load->view('user/userProfile');
 	    	}
 	    }
+
+	    function getDynamicFields(){
+	    	$categoryNames = $this->input->post();
+			$fieldList[] = $this->AdminModel->fieldList('allDocument');
+	    	foreach ($categoryNames['docPath'] as $categoryData) {
+
+	    		$docID = explode ("/amg/", $categoryData)[1];  
+	    		$docPath[] = explode ("/amg/", $categoryData)[0];  
+
+				$fieldList[] = $this->AdminModel->fieldList($docID);
+
+				//$fieldList= array_filter(array_map('array_filter', $fieldList));
+	    	}
+
+	    	foreach($fieldList as $subArray){
+		    foreach($subArray as $val){
+		        $newArray[] = $val;
+		    }
+		}
+			$newArray = json_decode(json_encode($newArray), true);
+			$newArray = $this->unique_key($newArray,'FieldName');
+			$this->load->view('user/dynamicFields',['fieldList'=>$newArray,'documents'=>$docPath]);
+	    }
+
+	    function unique_key($array,$keyname){
+
+		 $new_array = array();
+		 foreach($array as $key=>$value){
+
+		   if(!isset($new_array[$value[$keyname]])){
+		     $new_array[$value[$keyname]] = $value;
+		   }
+
+		 }
+		 $new_array = array_values($new_array);
+		 return $new_array;
+		}
 	}
 ?>

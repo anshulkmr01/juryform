@@ -15,9 +15,9 @@
 
 	<div class="container-fluid categories-home">
 		<div class="container">
-			<?= form_open('user/HomeController/getDynamicFields') ?>
-			<legend>Categories</legend>
-			<small id="fileHelp" class="form-text text-muted">Select the Jury Instructions.</small>
+			<?= form_open('user/DocMerge') ?>
+			<legend>Fill the Given Details</legend>
+			<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
 				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>
 					    	<div class="merge-message text-success">
 					    		<b>Selected Documents has Merged Succefully</b>
@@ -30,64 +30,63 @@
 					    		<?= $mergedFileFailed; ?>
 					    	</div>
 				<?php endif;?>
-
-			<div class="category-container">
-				<?php $counter = 0;?>
-				<?php foreach($categoriesData as $categories): ?>
-				<div class="category-list row">
-					<div class="category col-sm-12"><label class="dateRevised" style="float: right;">Date Revised</label>
+		 <div class="modal-body">
+					<div class="row margin-top-25 displayFields">
+							
 						<?php
-		                	if ($counter==0) {
-		                		?>
-								<span class="collapsable-list active-list"><?= $categories->Categoryname ?></span>
-		                		<ul class="list-panel" style="max-height: fit-content">
-		                		<?php
-		                	}
-		                	else
-		                	{
-						?>
-						<span class="collapsable-list"><?= $categories->Categoryname ?></span>
-		                <ul class="list-panel">
-		                	<?php
-		                	}
-		                	 $counter++; ?>
-		                    <div class="documents">
-		                    	<?php
-		                    		if(!empty($categories->sub)){
+						 if($fieldList){
+							foreach ($fieldList as $fieldData) {
+								if(strpos($fieldData['FieldName'],"|")){
+									?>
+										<div class="col-sm-3 dynamicFieldColumn">
+										  <fieldset>
+										    <div class="form-group">
+										      <label for="exampleInputEmail1"><?= $fieldData['FieldLabel'];?></label>
+										      <select class="custom-select" name="<?= explode('|', $fieldData['FieldName'])[0] ?>">
+											      <option selected="" value="*none*">Select:</option>
 
-		                    			foreach($categories->sub as $DocumentData){
-		                    	?>
-		                        <li>
-							      <input type="checkbox" rel="<?= $DocumentData->ID?>" onchange="change();" value="<?php echo $DocumentData->DocumentPath ?>/amg/<?= $DocumentData->ID?>" name="docPath[]">
-								      <label>
-	    							  	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocumentData->DocumentPath;	?>
-								      		<?= anchor($url,str_replace('_',' ',$DocumentData->DocumentName),['target'=>'new']) ?>
-								  	  </label>
-								  		<label style="float: right; cursor: default;">
-								  	  	<?php if($DocumentData->customDate)
-								  	  		echo date_format(date_create($DocumentData->customDate),"m/Y") ;
-								  	  		else echo date('m/Y', strtotime($DocumentData->DateofUpdation));?>
-										</label>
-		                        </li>
-		                        <?php
-		                        	}
-		                    		}
+											      <?php
+											      	foreach (array_slice(explode('|', $fieldData['FieldName']),1) as $fieldName){
+											      		?>
+													      <option value="<?= $fieldName ?>"><?= $fieldName ?></option>
+											      		<?php
+											      	}
+	   												 ?>										  </select>
+										      <small id="emailHelp" class="form-text text-muted"></small>
+											  <?php echo form_error('adminemail');?>
+										  	</div>
+										  </fieldset>
+										</div>
+									<?php
+								}
+								else{
+								?>
+								<div class="col-sm-3 dynamicFieldColumn">
+								  <fieldset>
+								    <div class="form-group">
+								      <label for="exampleInputEmail1"><?= $fieldData['FieldLabel']; ?></label>
+								      <?php echo form_input(['placeholder'=>$fieldData['FieldLabel'],'name'=>$fieldData['FieldName'],'value'=>set_value('adminemail'),'class'=>'form-control','aria-describedby'=>'adminemail']); ?>
+								      <small id="emailHelp" class="form-text text-muted"></small>
+									  <?php echo form_error('adminemail');?>
+								  	</div>
+								  </fieldset>
+								</div>
 
-		                    		else{
-		                    			?>
-		                        <li>
-							      No Document is Listed for this Category
-		                        </li>
-		                        <?php
-		                    		}
-		                        ?>
-		                    </div>
-		                </ul>
+						<?php }}}?>
 					</div>
-				</div>
-				<?php endforeach ?>
-			</div>
-			<input type="submit" value="Create" class="btn btn-primary merge-btn">
+			      </div>
+		<div>
+			<?php
+			if($documents){
+				foreach ($documents as $documentPath) {
+				?>
+				<input type="hidden" value="<?= $documentPath ?>" name="docPath[]">
+				<?php
+				}
+		}
+		?>
+		</div>
+		<?= form_submit(['value'=>'Submit & Merge','class'=>'btn btn-primary merge-btn',])?>
 			<?= form_close(); ?>
 		</div>
 	</div>

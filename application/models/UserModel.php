@@ -10,28 +10,50 @@
                     'telephone'=>$userData['telephone'],'password'=>md5($userData['password']),'verificationkey'=>$key]);
 
                 if($query){
-                $url = base_url('user/UserController/verifyUser/'.$userData['userEmail'].'/'.$key);
-
-                $this->load->library('email');
-                $this->email->from('kbrostechno@gmail.com', 'Anshul');
-                $this->email->to($userData['userEmail']);
-
-                $this->email->subject('Verify your Email for Registration');
-                $message = '<!DOCTYPE html>
-                                <html>
-                                <head>
-                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8/>
-                                </head>';
-                $message .= '<p>Hello User</p>';
-                $message .= '<p>Please verify your email address for Law Calendar by clicking
-                            <a href="'.$url.'">here</a></p>';
-                $message .= '<p>Thanks</>';
-                $this->email->message($message);
-                $this->email->send();
+                $this->verifyEmail($key,$userData['userEmail']);
 
                 return $query;
                 }
             }
+
+
+        //verify Email
+        function verifyEmail($key,$user){
+            $url = base_url('user/UserController/verifyUser/'.$user.'/'.$key);
+            //Load email library
+                $this->load->library('email');
+
+                $config['protocol']    = 'smtp';
+                $config['smtp_host']    = 'ssl://smtp.gmail.com';
+                $config['smtp_port']    = '465';
+                $config['smtp_timeout'] = '600';
+
+                $config['smtp_user']    = 'setdeadlines@gmail.com';    //Important
+                $config['smtp_pass']    = 'Setdeadlines@#jy312';  //Important
+
+
+                $config['charset']    = 'utf-8';
+                $config['newline']    = "\r\n";
+                $config['mailtype'] = 'html'; // or html
+                $config['validation'] = TRUE; // bool whether to validate email or not 
+
+                $this->email->initialize($config);
+                $this->email->set_mailtype("html"); 
+                $this->email->set_newline("\r\n");
+
+
+                $message .= 'Dear User, <br><br>';
+                $message .= 'Thank you so much to register with Jury Forms, please click on the button below to verify your email address and you can login to your account. <br><br>';
+                $message .= '<a href='.$url.' style="background: #000;padding: 11px;color: #fff; text-decoration: none;">Verify</a> <br><br>' ;
+
+                $this->email->from('juryforms@gmail.com', 'Jury Forms');
+                $this->email->to($user);
+
+                $this->email->subject('Thank you so much to register with Jury Forms, Please Verify your Email');
+                $this->email->message($message);
+                $this->email->send();
+        }
+
             //User Verify using email link
         function verifyUser($userEmail,$recivedKey){
             $query = $this->db->where(['email'=>$userEmail])->get('users');
@@ -103,12 +125,36 @@
                     $url = base_url('user/UserController/resetPassword/'.$userEmail.'/'.$recoveryKey);
 
                     $this->load->library('email');
-                    $this->email->from('kbrostechno@gmail.com', 'Anshul');
+
+                    $config['protocol']    = 'smtp';
+                    $config['smtp_host']    = 'ssl://smtp.gmail.com';
+                    $config['smtp_port']    = '465';
+                    $config['smtp_timeout'] = '600';
+
+                    $config['smtp_user']    = 'setdeadlines@gmail.com';    //Important
+                    $config['smtp_pass']    = 'Setdeadlines@#jy312';  //Important
+                    
+                    $config['charset']    = 'utf-8';
+                    $config['newline']    = "\r\n";
+                    $config['mailtype'] = 'html'; // or html
+                    $config['validation'] = TRUE; // bool whether to validate email or not 
+
+                    $this->email->initialize($config);
+                    $this->email->set_mailtype("html"); 
+                    $this->email->set_newline("\r\n");
+
+
+                    $message .= 'Dear User, <br><br>';
+                    $message .= 'Please Click on Below button and Create a new password. <br><br>';
+                    $message .= '<a href='.$url.' style="background: #000;padding: 11px;color: #fff; text-decoration: none;">Click Here</a> <br><br>' ;
+
+                    $this->email->from('juryforms@gmail.com', 'Jury Forms');
                     $this->email->to($userEmail);
 
-                    $this->email->subject('Verify your Email for Registration');
-                    $this->email->message("click here to verify your email address ".$url);
+                    $this->email->subject('Recover your Jury Form Password, Please Verify your Email');
+                    $this->email->message($message);
                     $this->email->send();
+                    
 
                     return true;
                     }
@@ -176,6 +222,34 @@
         }
         return $categories;
     }
+
+
+        function checkIfUserExist($userdata){
+            $query =  $this->db->where('email',$userdata['userEmail'])->get('users')->row('is_verified');
+            
+            if (isset($query)) {
+                if ($query == 0) {
+                $key = (md5(time()));
+                $query2 = $this->db->where('email',$userdata['userEmail'])->update('users',['verificationkey'=>$key]);
+                $this->verifyEmail($key,$userdata['userEmail']);
+                //A veryfied user exist
+                $this->session->set_flashdata('warning','Congo! You are already a registered User, Please verify your email address');
+                return redirect('loginUser');
+                }
+                else{
+                    //A veryfied user exist
+                    $this->session->set_flashdata('success','Congo! You are already a registered User');
+                    return redirect('loginUser');
+                }
+
+            }
+            else{
+                //No user found
+                return true;
+            }
+            exit();
+        }
+
 
     public function sub_categories($id){
 

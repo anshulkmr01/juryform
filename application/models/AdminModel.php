@@ -52,6 +52,10 @@
 		return $this->db->where(['CategoryId'=>$CategoryId])->get('documentnames')->result();
 		}
 
+		function allDocuments(){
+			return $this->db->get('documentnames')->result();
+		}
+
 		function deleteDocuments($documentId){
 			return $this->db->delete('documentnames',['ID'=>$documentId]);
 		}
@@ -62,8 +66,17 @@
 						->update('documentnames',['DocumentName'=>$updateDocumentName, 'DocumentPath'=>$newPath, 'customDate'=>$docRevisedDate]);
 		}
 
-		function addField($labelName,$labelText){
-			return $this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+		function addField($labelName,$labelText,$selectedDocuments){
+
+			foreach ($selectedDocuments as $document) {
+			
+			$document = explode('/amg/',$document);
+
+				$docID = $document[0];
+				$docName = $document[1];
+				$this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText,'DocumentID'=>$docID,'docname'=>$docName]);
+			}
+			return true;
 		}
 
 
@@ -89,9 +102,14 @@
 				}
 		}
 
-		function fieldList(){
+		function fieldList($docID){
+			return $this->db->where('DocumentID',$docID)->get('dynamicfields')->result();
+		}
+
+		function allFieldList(){
 			return $this->db->get('dynamicfields')->result();
 		}
+
 
 		function deleteField($fieldId){
 			return $this->db->delete('dynamicfields',['ID'=>$fieldId]);
