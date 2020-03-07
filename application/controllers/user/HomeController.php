@@ -46,24 +46,20 @@
 
 	    function getDynamicFields(){
 	    	$categoryNames = $this->input->post();
-			$fieldList[] = $this->AdminModel->fieldList('allDocument');
+			$fieldList[] = $this->AdminModel->fieldList('allDocuments');
 	    	foreach ($categoryNames['docPath'] as $categoryData) {
 
 	    		$docID = explode ("/amg/", $categoryData)[1];  
 	    		$docPath[] = explode ("/amg/", $categoryData)[0];  
 
 				$fieldList[] = $this->AdminModel->fieldList($docID);
-
-				//$fieldList= array_filter(array_map('array_filter', $fieldList));
 	    	}
+	    	$fieldList = call_user_func_array('array_merge', $fieldList);
+	    	$fieldList = call_user_func_array('array_merge', $fieldList);
 
-	    	foreach($fieldList as $subArray){
-		    foreach($subArray as $val){
-		        $newArray[] = $val;
-		    }
-		}
-			$newArray = json_decode(json_encode($newArray), true);
+			$newArray = json_decode(json_encode($fieldList), true);
 			$newArray = $this->unique_key($newArray,'FieldName');
+
 			$this->load->view('user/dynamicFields',['fieldList'=>$newArray,'documents'=>$docPath]);
 	    }
 

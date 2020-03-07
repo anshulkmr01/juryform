@@ -1,7 +1,10 @@
 .main-container{
 	padding-top: 10%;
 }
-
+.small-btn{
+  padding: 5px 20px!important;
+  background:#000;
+}
 th{
 	font-size: 14px;
     font-weight: 900;

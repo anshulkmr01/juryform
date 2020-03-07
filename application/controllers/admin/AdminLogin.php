@@ -4,6 +4,7 @@
 public function __construct(){
 
 		parent::__construct();
+				$this->load->model('AdminModel');
 				$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
 		}
 		public function index()
@@ -22,7 +23,7 @@ public function __construct(){
 			{
 				$adminemail = $this->input->post('adminemail');
 				$adminpassword = $this->input->post('adminpassword');
-				$this->load->model('AdminModel');
+				
 				$adminId = $this->AdminModel->isValidate($adminemail,$adminpassword);
 				if($adminId){
 					//$this->load->library('session');
@@ -47,7 +48,7 @@ public function __construct(){
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
 
-			$this->load->model('AdminModel');
+			
 			$queryResult = $this->AdminModel->getCategories();
 			#$documentsNumbers = $this->AdminModel->getDocumentsList($CategoryId);
 
@@ -79,7 +80,7 @@ public function __construct(){
 			$adminName = $this->input->post('newAdminName');
 			$adminPassword = $this->input->post('newAdminPassword');
 
-			$this->load->model('AdminModel');
+			
 			if($this->AdminModel->changeAdminCredentials($adminId,$adminName,$adminPassword)){
 					$this->session->set_flashdata('logout_success','Credentials Changed Succesfully, Login Again');
 					$this->session->unset_userdata('adminId');
@@ -101,7 +102,7 @@ public function __construct(){
 
 			if ($this->form_validation->run()) {
 				$adminEmail = $this->input->post('adminemail');
-				$this->load->model('AdminModel');
+				
 				if($this->AdminModel->checkAdmin($adminemail)){
 					echo "ok";
 				}
@@ -159,7 +160,7 @@ public function __construct(){
 		public function deleteCategory(){
 
 			$categoryId = $_GET['categoryId'];
-			$this->load->model('AdminModel');
+			
 			
 			if($this->AdminModel->deleteCategory($categoryId))
 			{
@@ -176,7 +177,7 @@ public function __construct(){
 
 		public function deleteSelectedCategories(){
 					$categoryIds = $this->input->post('categoryIds');
-					$this->load->model('AdminModel');
+					
 					foreach ($categoryIds as $categoryId) {
 
 						if(!$this->AdminModel->deleteCategory($categoryId))
@@ -194,7 +195,7 @@ public function __construct(){
 
 		public function deleteSelectedFields(){
 			$fieldIds = $this->input->post('fieldId');
-			$this->load->model('AdminModel');
+			
 					foreach ($fieldIds as $fieldId) {
 
 						if(!$this->AdminModel->deleteField($fieldId))
@@ -231,7 +232,7 @@ public function __construct(){
 			$CategoryId = $this->input->post('categoryId');
 
 			if($this->form_validation->run()){
-				$this->load->model('AdminModel');
+				
 				if($this->AdminModel->updateCategoryName($CategoryId,$editCategory)){
 
 					$this->session->set_flashdata('success','Name Changed Successfully');
@@ -278,7 +279,7 @@ public function __construct(){
 				$categoryData = $this->session->userdata('categoryData');
 			}
 
-			$this->load->model('AdminModel');
+			
 			$documentList = $this->AdminModel->getDocumentsList($categoryData['categoryId']);
 
 			if($categoryData){
@@ -319,7 +320,7 @@ public function __construct(){
 				//$image_name[$key]['file_name'] = $data['file_name'];
 				$image_name[$key]['file_name'] = $data['raw_name'];
 
-				$this->load->model('AdminModel');
+				
 				if(!$this->AdminModel->addDocuments($categoryData['categoryId'],$image_path[$key]['file_name'],$image_name[$key]['file_name']))
 				{
 					$this->session->set_flashdata('error','Documents Adding Failed');
@@ -344,7 +345,7 @@ public function __construct(){
 		}
 		function deleteDocument(){
 
-			$this->load->model('AdminModel');
+			
 			// $documentId = $this->input->post('documentId');
 			// $documentName = $this->input->post('documentName');
 			 $documentId = $_GET['documentId'];
@@ -369,7 +370,7 @@ public function __construct(){
 
 			$docNames = $this->input->post('docName');
 
-			$this->load->model('AdminModel');
+			
 			$filePath = "uploads/";
 
 			foreach ($docNames as $docName) {
@@ -432,7 +433,7 @@ public function __construct(){
 		        	{
 
 		        	$newPath = base_url($new_name);
-		        	$this->load->model('AdminModel');
+		        	
 		        	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName,$newPath,$docRevisedDate)){
 
 		        		$this->session->set_flashdata('success','Rename Successfully');
@@ -454,7 +455,7 @@ public function __construct(){
 
 		    elseif(isset($_POST['reviseDate'])){
 		    	
-	        	$this->load->model('AdminModel');
+	        	
 	        	$newPath = base_url($old_name);
 		    	if($this->AdminModel->updateDocumentName($documentId, $documentUpdatedName,$newPath,$docRevisedDate)){
 
@@ -477,7 +478,7 @@ public function __construct(){
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
 
-			$this->load->model('AdminModel');
+			
 			$fieldList = $this->AdminModel->allFieldList();	
 			$documents = $this->AdminModel->allDocuments();
 			$this->load->view('admin/createField',['filedList'=>$fieldList, 'documents'=>$documents]);
@@ -496,9 +497,6 @@ public function __construct(){
 			$this->form_validation->set_rules('labelText','Text to Replace','trim|required',
 									array(['required'=>'%s is Required']));
 
-			// $this->form_validation->set_rules('documents','Select','trim|required',
-			// 						array(['required'=>'%s at least one option']));
-
 			if($this->form_validation->run()){
 
 				$fieldsData = $this->input->post();
@@ -514,8 +512,6 @@ public function __construct(){
 				else{
 					$selectedDocuments[] = $radioOption;
 				}
-
-				$this->load->model('AdminModel');
 
 				if($this->AdminModel->addField($labelName,$labelText,$selectedDocuments)){
 					
@@ -536,6 +532,13 @@ public function __construct(){
 		}
 		}
 
+		public function removeDocumentFromKeyword($docID,$keywordID){
+			if($this->AdminModel->removeDocumentFromKeyword($docID,$keywordID)){
+				$this->session->set_flashdata('success','Document Removed from Keyword');
+					return redirect('admin/AdminLogin/createField');
+			}
+		}
+
 		public function fieldUpdate(){
 
 			if(!$this->session->userdata('adminId'))
@@ -551,7 +554,7 @@ public function __construct(){
 				$fieldId = $this->input->post('fieldId');
 
 				$labelText = str_replace(' ','',$labelText);
-				$this->load->model('AdminModel');
+				
 
 				if($this->AdminModel->updateField($labelName,$labelText,$fieldId)){
 					
@@ -575,7 +578,7 @@ public function __construct(){
 			if(!$this->session->userdata('adminId'))
 				return redirect('admin/AdminLogin/');
 
-			$this->load->model('AdminModel');
+			
 
 			if($this->AdminModel->deleteField($fieldId))
 			{

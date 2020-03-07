@@ -68,13 +68,21 @@
 
 		function addField($labelName,$labelText,$selectedDocuments){
 
+			$chekIfFieldNameExist = $this->db->where('FieldName',$labelText)->get('dynamicfields')->result();
+			if($chekIfFieldNameExist){
+				$this->session->set_flashdata('error','Keyword Already Exist');
+				return redirect('admin/AdminLogin/createField');
+			}
+
+			$query = $this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+			$FieldID = $this->db->insert_id();
+
 			foreach ($selectedDocuments as $document) {
-			
 			$document = explode('/amg/',$document);
 
 				$docID = $document[0];
 				$docName = $document[1];
-				$this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText,'DocumentID'=>$docID,'docname'=>$docName]);
+				$this->db->insert('assignedfields',['FieldID'=>$FieldID, 'DocumentID'=>$docID,'DocumentName'=>$docName]);
 			}
 			return true;
 		}
@@ -83,6 +91,10 @@
 		function updateField($labelName,$labelText,$fieldId){
 			return $this->db->where('ID',$fieldId)
 							 ->update('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
+		}
+
+		function removeDocumentFromKeyword($docID,$keywordID){
+			return $this->db->delete('assignedfields',['DocumentID'=>$docID,'FieldID'=>$keywordID]);
 		}
 
 		function changeAdminCredentials($adminId,$adminName,$adminPassword){
@@ -103,12 +115,50 @@
 		}
 
 		function fieldList($docID){
-			return $this->db->where('DocumentID',$docID)->get('dynamicfields')->result();
+			$dynamicfields =  $this->db->where('DocumentID',$docID)->get('assignedfields')->result();
+			$i=0;
+	        foreach($dynamicfields as $p_cat){
+
+	            $dynamicfields[$i] = $this->DynamicFields($p_cat->FieldID);
+	            $i++;
+	        }
+			return $dynamicfields;
 		}
 
+		 public function DynamicFields($id){
+
+	        $this->db->select('*');
+	        $this->db->from('dynamicfields');
+	        $this->db->where('ID', $id);
+
+	        $child = $this->db->get();
+	        $categories = $child->result();
+	        return $categories;       
+	    }
+
+
 		function allFieldList(){
-			return $this->db->get('dynamicfields')->result();
+			$dynamicfields =  $this->db->get('dynamicfields')->result();
+		
+			$i=0;
+	        foreach($dynamicfields as $p_cat){
+
+	            $dynamicfields[$i]->sub = $this->assignedDocuments($p_cat->ID);
+	            $i++;
+	        }
+			return $dynamicfields;
 		}
+
+		 public function assignedDocuments($id){
+
+	        $this->db->select('*');
+	        $this->db->from('assignedfields');
+	        $this->db->where('FieldID', $id);
+
+	        $child = $this->db->get();
+	        $categories = $child->result();
+	        return $categories;       
+	    }
 
 
 		function deleteField($fieldId){

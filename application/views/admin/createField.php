@@ -16,8 +16,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-5">
-
-			
 				    <?php if($error = $this->session->flashdata('error')):?>
 				    	<div class="alert alert-danger">
 				    		<?= $error; ?>
@@ -100,7 +98,7 @@
 						</div>
 					<!--/ Search Bar -->
 				    <?php if($filedList){?>
-				    <table class="table sortable-table" id="myTable"style="text-align: center;">
+				    <table class="table sortable-table" id="myTable"style="text-align: left;">
 				    	<?= form_open('admin/AdminLogin/deleteSelectedFields')?>
 				    	<tr  class="sorter-header">
 				    		<th class="no-sort">S.no</th>
@@ -122,10 +120,16 @@
 								</td>
 				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
 				    			<td><center><input type="checkbox" value="<?= $field->ID ?>" name="fieldId[]"></center></td>
-				    			<tr>
-				    				<td></td>
-				    				<td><?= $field->docname;?></td>
-				    			</tr>
+				    			<?php if($field->sub){
+
+				    				foreach ($field->sub as $document) {
+				    				?>
+				    				<tr><td></td><td>
+				    					<li><?php if($document->DocumentName) echo $document->DocumentName; else echo "For All Documents";;?></li>
+				    				</td>
+				    				<td><?= anchor("admin/AdminLogin/removeDocumentFromKeyword/{$document->DocumentID}/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm small-btn']) ?>
+				    				</td></tr>
+				    			<?php }}?>
 				    		</tr>
 				    	<?php endforeach;?>
 				    	<?php if(isset($field->ID)) {?>
