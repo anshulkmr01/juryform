@@ -62,7 +62,7 @@
 					    <div class="custom-control custom-radio">
 					      <input type="radio" id="customRadio2" onclick="handleClick(this);" class="custom-control-input select_list" name="radio_flavour" value="multipleDocuments">
 					      <label class="custom-control-label" for="customRadio2">Select Single or Multiple*</label>
-						    <select class="custom-select" id="documentSelect" name="documents[]" multiple required disabled="disabled">
+						    <select class="custom-select height-250" id="documentSelect" name="documents[]" multiple required disabled="disabled">
 						      <?php foreach($documents as $document){?>
 						      	<option value="<?= $document->ID?>/amg/<?= $document->DocumentName?>"><?= $document->DocumentName?></option>
 						      <?php } ?>
@@ -97,14 +97,15 @@
 							<div class="col-sm-3"></div>
 						</div>
 					<!--/ Search Bar -->
-				    <?php if($filedList){?>
+				    <?php if($filedList){
+				    	?>
 				    <table class="table sortable-table" id="myTable"style="text-align: left;">
 				    	<?= form_open('admin/AdminLogin/deleteSelectedFields')?>
 				    	<tr  class="sorter-header">
 				    		<th class="no-sort">S.no</th>
 				    		<th>Label</th>
 				    		<th>Keyword</th>
-				    		<th colspan="2" class="no-sort">Action</th>
+				    		<th colspan="3" class="no-sort">Action</th>
 				    		<th class="no-sort"><center><label><input type="checkbox" name="sample" class="selectall" style="display:none;"/> <span style="cursor: pointer;">Select all</span></label></center></th>
 				    	</tr>
 
@@ -116,6 +117,11 @@
 				    			<td><?= $field->FieldLabel; ?></td>
 				    			<td><?= $field->FieldName; ?></td>
 				    			<td>
+				    				<?php if($field->sub[0]->DocumentID != "allDocuments"){?>
+									<?= anchor("admin/AdminLogin/assignNewDocument/{$field->ID}",'Add doc',['class'=>'btn btn-primary btn-sm']) ?>
+									<?php }?>
+								</td>
+				    			<td>
 									<a data-toggle="modal" data-item="<?= $field->FieldLabel ?>" data-id="<?= $field->ID ?>" data-user="<?= $field->FieldName ?>" class="open-updateFields btn btn-primary btn-sm" href="#renameDynamicFields">Edit</a>
 								</td>
 				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
@@ -125,7 +131,7 @@
 				    				foreach ($field->sub as $document) {
 				    				?>
 				    				<tr><td></td><td>
-				    					<li><?php if($document->DocumentName) echo $document->DocumentName; else echo "For All Documents";;?></li>
+				    					<li><?php if($document->DocumentName) echo $document->DocumentName; else echo "For All Documents";?></li>
 				    				</td>
 				    				<td><?= anchor("admin/AdminLogin/removeDocumentFromKeyword/{$document->DocumentID}/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm small-btn']) ?>
 				    				</td></tr>

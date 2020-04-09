@@ -50,6 +50,7 @@ public function __construct(){
 
 			
 			$queryResult = $this->AdminModel->getCategories();
+			$this->session->set_userdata('categoryData_',$queryResult->result());
 			#$documentsNumbers = $this->AdminModel->getDocumentsList($CategoryId);
 
 			$this->load->view('admin/dashboard',['categoriesData'=>$queryResult]);
@@ -142,7 +143,7 @@ public function __construct(){
 				if($this->newCategory->addCategory($categoryName)){
 					
 					$this->session->set_flashdata('success','Category Created Successfully');
-					return redirect('admin/adminLogin/createCategory');
+					return redirect('admin/adminLogin/welcome');
 
 				}
 			else{
@@ -209,6 +210,23 @@ public function __construct(){
 						return redirect('admin/AdminLogin/createField');
 		}
 
+		public function assignNewDocument($fieldID){
+
+			if(!$this->session->userdata('adminId'))
+				return redirect('admin/AdminLogin/');
+			$documents = $this->AdminModel->allFilterDocuments($fieldID);
+			$this->load->view('admin/assignNewDocument',['documents'=>$documents, 'fieldID'=>$fieldID]);
+		}
+
+		public function assignMoreDocuments(){
+
+			$docData = $this->input->post();
+			if($this->AdminModel->assignMoreDocuments($docData['fieldID'],$docData['documents'])){
+					$this->session->set_flashdata('success','Document Added Successfully');
+					return redirect('admin/AdminLogin/createField');
+
+				}
+		}
 
 		public function editCategory(){
 

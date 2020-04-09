@@ -46,6 +46,7 @@
 
 	    function getDynamicFields(){
 	    	$categoryNames = $this->input->post();
+	    	error_reporting(E_ERROR | E_PARSE);
 			$fieldList[] = $this->AdminModel->fieldList('allDocuments');
 	    	foreach ($categoryNames['docPath'] as $categoryData) {
 
@@ -54,6 +55,11 @@
 
 				$fieldList[] = $this->AdminModel->fieldList($docID);
 	    	}
+	    	if(!$fieldList){
+	    		$this->session->set_flashdata('error', 'Admin has not assigned any Keyword to any Document');
+	    		return redirect('home');
+	    	}
+
 	    	$fieldList = call_user_func_array('array_merge', $fieldList);
 	    	$fieldList = call_user_func_array('array_merge', $fieldList);
 
@@ -67,7 +73,6 @@
 
 		 $new_array = array();
 		 foreach($array as $key=>$value){
-
 		   if(!isset($new_array[$value[$keyname]])){
 		     $new_array[$value[$keyname]] = $value;
 		   }

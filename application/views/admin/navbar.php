@@ -9,8 +9,16 @@
       <li class="nav-item">
         <?= anchor('admin/AdminLogin/createCategory','Create New Category',array('class' => 'nav-link'));?>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item parent-menu">
         <a class="nav-link" href="<?= base_url("admin/AdminLogin/welcome"); ?>">Categories</a>
+        <?php if($categoryData = $this->session->userdata('categoryData_')):?>
+        <ul class="sub-menu">
+          <?php foreach($categoryData as $categories):?>
+            <a href="<?= base_url('admin/AdminLogin/documents')?>?categoryId=<?=$categories->CategoryId ?>&categoryName=<?=$categories->Categoryname?>" class=""><li><?= $categories->Categoryname ?></li></a>
+         
+        <?php endforeach;?>
+        </ul>
+      <?php endif; ?>
       </li>
       <li class="nav-item">
         <?= anchor('admin/AdminLogin/createField','Dynamic Fields',array('class' => 'nav-link'));?>

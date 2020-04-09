@@ -148,3 +148,67 @@ table.sortable-table th.descending{
 .col-sm-12.company h6 {
     display: none;
 }
+.sub-menu{
+  background-color: #000;
+  color: #fff;
+  position: absolute;
+  z-index: 9;
+
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+  /*opacity: 0;*/
+  width: max-content;
+  max-width: 500px;
+  list-style: none;
+  padding: 0px;
+  transition: all .2s linear 0.1s;
+  /*max-height: 300px;*/
+  overflow: auto;
+}
+.sub-menu a{
+  color: #fff;
+}
+.sub-menu li:hover{
+  background: #dc8f21;
+}
+/*
+.sub-menu li:hover a{
+  color: #000 !important;
+}
+*/
+.sub-menu li{
+    padding: 5px 20px;
+    width: 100%;
+}
+.parent-menu{
+  position: relative;
+}
+.parent-menu:hover .sub-menu{
+  /*opacity: 1;*/
+  transition: max-height 0.25s ease-in;
+  max-height: 300px;
+}
+
+.height-250{
+    height: 250px !important;
+  }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d9534f; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #dc8f21; 
+}

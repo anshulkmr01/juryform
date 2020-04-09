@@ -14,6 +14,24 @@
 	<!--/ Navbar -->
 
 	<div class="container-fluid categories-home">
+		<div class="message container">
+			<div class="row">
+				<div class="col-sm-5">
+					<?php if($success = $this->session->flashdata('success')):?>
+				    	<div class="alert alert-success">
+				    		<?= $success; ?>
+				    	</div>
+				    <?php endif;?>
+
+				    <?php if($error = $this->session->flashdata('error')):?>
+				    	<div class="alert alert-danger">
+				    		<?= $error; ?>
+				    	</div>
+				    <?php endif;?>
+				</div>
+				<div class="col-sm-7"></div>
+			</div>
+		</div>
 		<div class="container">
 			<?= form_open('user/HomeController/getDynamicFields') ?>
 			<legend>Categories</legend>

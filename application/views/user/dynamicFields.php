@@ -72,7 +72,12 @@
 								  </fieldset>
 								</div>
 
-						<?php }}}?>
+						<?php }}}
+
+						else{
+							echo "No Any Field is Assigned to Selected Document You can still merge & Download the File ";
+						}
+						?>
 					</div>
 			      </div>
 		<div>

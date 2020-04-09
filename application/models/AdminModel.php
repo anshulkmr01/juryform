@@ -56,10 +56,36 @@
 			return $this->db->get('documentnames')->result();
 		}
 
+		function allFilterDocuments($fieldID){
+			$data['assignedfields'] = $this->db->where(['FieldID'=>$fieldID])->get('assignedfields')->result();
+
+			$data['allDocuments'] = $this->db->get('documentnames')->result();
+
+			$data = $this->removeDublicateEntry($data['assignedfields'], $data['allDocuments']);
+
+			return $data;
+		}
+
+		function removeDublicateEntry($assignedfields, $allDocuments){
+			$i = 0;
+			$j = 0;
+			foreach ($assignedfields as $key => $value) {
+				foreach ($allDocuments as $key_ => $value_) {
+					if($value->DocumentID == $value_->ID){
+						unset($assignedfields[$i]);
+						unset($allDocuments[$i]);
+					}
+					$j++;
+				}
+				$i++;
+			}
+
+			return $allDocuments;
+		}
+
 		function deleteDocuments($documentId){
 			return $this->db->delete('documentnames',['ID'=>$documentId]);
 		}
-
 
 		function updateDocumentName($documentId,$updateDocumentName, $newPath, $docRevisedDate){
 			return $this->db->where('ID',$documentId)
@@ -83,6 +109,18 @@
 				$docID = $document[0];
 				$docName = $document[1];
 				$this->db->insert('assignedfields',['FieldID'=>$FieldID, 'DocumentID'=>$docID,'DocumentName'=>$docName]);
+			}
+			return true;
+		}
+
+		function assignMoreDocuments($fieldID, $selectedDocuments){
+
+			foreach ($selectedDocuments as $document) {
+			$document = explode('/amg/',$document);
+
+				$docID = $document[0];
+				$docName = $document[1];
+				$this->db->insert('assignedfields',['FieldID'=>$fieldID, 'DocumentID'=>$docID,'DocumentName'=>$docName]);
 			}
 			return true;
 		}
@@ -162,7 +200,10 @@
 
 
 		function deleteField($fieldId){
-			return $this->db->delete('dynamicfields',['ID'=>$fieldId]);
+			$this->db->delete('assignedfields',['FieldID'=>$fieldId]);
+			$this->db->delete('dynamicfields',['ID'=>$fieldId]);
+
+			return true;
 		}
 	}
 ?>
