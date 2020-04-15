@@ -23,13 +23,13 @@
             //Load email library
                 $this->load->library('email');
 
-                $config['protocol']    = 'smtp';
-                $config['smtp_host']    = 'ssl://smtp.gmail.com';
-                $config['smtp_port']    = '465';
+                $config['protocol']    = 'smtpout.secureserver.net';
+                $config['smtp_host']    = 'localhost';
+                $config['smtp_port']    = '25';
                 $config['smtp_timeout'] = '600';
 
-                $config['smtp_user']    = 'setdeadlines@gmail.com';    //Important
-                $config['smtp_pass']    = 'Setdeadlines@#jy312';  //Important
+                $config['smtp_user']    = 'info@kennerlawgroup.com';    //Important
+                $config['smtp_pass']    = 'Maria!$%';  //Important
 
 
                 $config['charset']    = 'utf-8';
@@ -46,7 +46,7 @@
                 $message .= 'Thank you so much to register with Jury Forms, please click on the button below to verify your email address and you can login to your account. <br><br>';
                 $message .= '<a href='.$url.' style="background: #000;padding: 11px;color: #fff; text-decoration: none;">Verify</a> <br><br>' ;
 
-                $this->email->from('juryforms@gmail.com', 'Jury Forms');
+                $this->email->from('info@kennerlawgroup.com', 'Jury Forms');
                 $this->email->to($user);
 
                 $this->email->subject('Thank you so much to register with Jury Forms, Please Verify your Email');
@@ -126,13 +126,13 @@
 
                     $this->load->library('email');
 
-                    $config['protocol']    = 'smtp';
-                    $config['smtp_host']    = 'ssl://smtp.gmail.com';
-                    $config['smtp_port']    = '465';
+                    $config['protocol']    = 'smtpout.secureserver.net';
+                    $config['smtp_host']    = 'localhost';
+                    $config['smtp_port']    = '25';
                     $config['smtp_timeout'] = '600';
 
-                    $config['smtp_user']    = 'setdeadlines@gmail.com';    //Important
-                    $config['smtp_pass']    = 'Setdeadlines@#jy312';  //Important
+                    $config['smtp_user']    = 'info@kennerlawgroup.com';    //Important
+                    $config['smtp_pass']    = 'Maria!$%';  //Important
                     
                     $config['charset']    = 'utf-8';
                     $config['newline']    = "\r\n";
@@ -148,7 +148,7 @@
                     $message .= 'Please Click on Below button and Create a new password. <br><br>';
                     $message .= '<a href='.$url.' style="background: #000;padding: 11px;color: #fff; text-decoration: none;">Click Here</a> <br><br>' ;
 
-                    $this->email->from('juryforms@gmail.com', 'Jury Forms');
+                    $this->email->from('info@kennerlawgroup.com', 'Jury Forms');
                     $this->email->to($userEmail);
 
                     $this->email->subject('Recover your Jury Form Password, Please Verify your Email');

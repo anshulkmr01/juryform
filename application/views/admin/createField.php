@@ -99,9 +99,9 @@
 					<!--/ Search Bar -->
 				    <?php if($filedList){
 				    	?>
-				    <table class="table sortable-table" id="myTable"style="text-align: left;">
+				    <table class="table sortable-table mytable" id="myTable"style="text-align: left;">
 				    	<?= form_open('admin/AdminLogin/deleteSelectedFields')?>
-				    	<tr  class="sorter-header">
+				    	<tr class="">
 				    		<th class="no-sort">S.no</th>
 				    		<th>Label</th>
 				    		<th>Keyword</th>
@@ -114,7 +114,7 @@
 				    	 foreach($filedList as $field): $i++?>
 				    		<tr>
 				    			<td><?= $i; ?></td>
-				    			<td><?= $field->FieldLabel; ?></td>
+				    			<td><a class="showmore"><?= $field->FieldLabel; ?></a></td>
 				    			<td><?= $field->FieldName; ?></td>
 				    			<td>
 				    				<?php if($field->sub[0]->DocumentID != "allDocuments"){?>
@@ -130,11 +130,19 @@
 
 				    				foreach ($field->sub as $document) {
 				    				?>
-				    				<tr><td></td><td>
+				    				<tr class="detail">
+				    				<td colspan="3">
+				    					<div>
+				    					<table class="child_table">
+				    					<td></td><td>
 				    					<li><?php if($document->DocumentName) echo $document->DocumentName; else echo "For All Documents";?></li>
+					    				</td>
+					    				<td><?= anchor("admin/AdminLogin/removeDocumentFromKeyword/{$document->DocumentID}/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm small-btn']) ?>
+					    				</td>
+					    				</table>
+					    				</div>
 				    				</td>
-				    				<td><?= anchor("admin/AdminLogin/removeDocumentFromKeyword/{$document->DocumentID}/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm small-btn']) ?>
-				    				</td></tr>
+				    				</tr>
 				    			<?php }}?>
 				    		</tr>
 				    	<?php endforeach;?>
@@ -238,5 +246,19 @@ function handleClick(myRadio) {
 	document.getElementById("documentSelect").disabled = true;
 	}
 }
+
+$(function() {
+  $('a.showmore').click(function(e) {
+    e.preventDefault();
+    // We break and store the result so we can use it to hide
+    // the row after the slideToggle is closed
+    var targetrow = $(this).closest('tr').next('.detail');
+    targetrow.show().find('div').slideToggle('slow', function(){
+      if (!$(this).is(':visible')) {
+        targetrow.hide();
+      }
+    });
+  });
+});
 </script>
 </html>

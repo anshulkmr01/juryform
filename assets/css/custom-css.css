@@ -193,6 +193,30 @@ table.sortable-table th.descending{
     height: 250px !important;
   }
 
+tr.detail {
+  display: none;
+  width: 100%;
+}
+tr.detail div {
+  display: none;
+}
+.showmore:hover {
+  cursor: pointer;
+}
+.child_table{
+  margin: 0px;
+  border:0px;
+}
+.table th, .table td{
+  padding: 12px;
+}
+.child_table td{
+  border-top: 0px;
+}
+.custom-radio .custom-control-label::before {
+    border-radius: 50%;
+    background: #949494!important;
+  }
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
