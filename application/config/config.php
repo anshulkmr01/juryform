@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['base_url'] = 'http://localhost/PHPmerge';
 
 //Production Url
-//$config['base_url'] = 'http://maria.kbrostechno.com/';
+//$config['base_url'] = 'http://juryforms.com/';
 
 /*
 |--------------------------------------------------------------------------

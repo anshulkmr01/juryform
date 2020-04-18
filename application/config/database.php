@@ -72,12 +72,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 /*
-	database credentials for maria.kbrostechno.com
+	database credentials for juryforms.com
 	
-	'username' => 'u137227160_demo',
-	'password' => 'demo111',
-	'database' => 'u137227160_demo',
-
+	 'username' => 'maria',
+	 'password' => '@8fo42hz#0%pD@',
+	 'database' => 'juryinstructions',
 
 */
 $active_group = 'default';
