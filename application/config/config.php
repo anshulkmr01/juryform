@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //Development url
-$config['base_url'] = 'http://localhost/PHPmerge';
+$config['base_url'] = 'http://localhost/juryforms';
 
 //Production Url
 //$config['base_url'] = 'http://juryforms.com/';

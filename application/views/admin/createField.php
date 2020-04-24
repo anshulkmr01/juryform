@@ -48,7 +48,7 @@
 				    <div class="form-group margin-top-25">
 				      <label for="exampleInputEmail1">Keyword*</label>
 
-				      <?php echo form_input(['placeholder'=>'eg. Name','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory','required'=>'required']); ?>
+				      <?php echo form_input(['placeholder'=>'${***}','name'=>'labelText','value'=>set_value('labelText'),'class'=>'form-control','id'=>'newCategory','aria-describedby'=>'newCategory','required'=>'required']); ?>
 				      <small id="newCategory" class="form-text text-muted">A Keyword Must not contain Blank Space</small>
 					  <?php echo form_error('labelText');?>
 				  	</div>

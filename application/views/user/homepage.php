@@ -58,14 +58,14 @@
 		                	if ($counter==0) {
 		                		?>
 								<span class="collapsable-list active-list"><?= $categories->Categoryname ?></span>
-		                		<ul class="list-panel" style="max-height: fit-content">
+		                		<ul class="list-panel" style="max-height: fit-content"><input type="checkbox" style="margin-bottom: 20px"> <strong>Select All</strong>
 		                		<?php
 		                	}
 		                	else
 		                	{
 						?>
 						<span class="collapsable-list"><?= $categories->Categoryname ?></span>
-		                <ul class="list-panel">
+		                <ul class="list-panel"><input type="checkbox" style="margin-bottom: 20px"> <strong>Select All</strong>
 		                	<?php
 		                	}
 		                	 $counter++; ?>
@@ -115,6 +115,17 @@
 	?>
 
 <script>
+
+	/* Select all Category Document*/
+	$(function () {
+		    $("input[type='checkbox']").change(function () {
+		        $(this).siblings('div')
+		            .find("input[type='checkbox']")
+		            .prop('checked', this.checked);
+		    });
+		});
+	/* Select all Category Document*/
+
 function change() {
   var modelCbs = document.querySelectorAll(".documents input[type='checkbox']");
   var processorCbs = document.querySelectorAll(".processors input[type='checkbox']");
