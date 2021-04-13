@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Merge Document to JURY INSTRUCTIONS</title>
+	<title>Law Calendar</title>
 	<?php 
 			globalCss(); 
 	?>
@@ -10,22 +10,16 @@
 	<div class="container-fluid main-container">
 	<div class="user-signup-form container">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-3">
 			</div>
-			<div class="col-sm-6">
-				<?= form_open('validateUser'); ?>
+			<div class="col-sm-5">
+				<?= form_open('recoverPasswordSendEmail'); ?>
 				  <fieldset>
-				    <legend>User Login</legend>
+				    <legend>Recover Password</legend>
 
 				    <?php if($error = $this->session->flashdata('error')):?>
 				    	<div class="alert alert-danger">
 				    		<?= $error; ?>
-				    	</div>
-				    <?php endif;?>
-
-				    <?php if($warning = $this->session->flashdata('warning')):?>
-				    	<div class="alert alert-warning">
-				    		<?= $warning; ?>
 				    	</div>
 				    <?php endif;?>
 
@@ -43,30 +37,15 @@
 					  <?php echo form_error('userEmail');?>
 				  	</div>
 
-				    <div class="form-group">
-				      <label for="exampleInputPassword1">Password*</label>
-
-				      <?php echo form_password(['placeholder'=>'Password','name'=>'userPassword','value'=>set_value('userPassword'),'class'=>'form-control','id'=>'exampleInputPassword1','aria-describedby'=>'userPassword']); ?>
-					  <?php echo form_error('userPassword');?>
-
-				    </div>
-
-				    <?php echo form_submit(['value'=>'Login','class'=>'btn btn-primary']); ?>
+				    <?php echo form_submit(['value'=>'Send Email','class'=>'btn btn-primary']); ?>
 				  </fieldset>
 				  <br>
 				  <div class="form-group">
-				      <label for="exampleInputEmail1"><?= anchor('recoverPassword','Recover Password')?></label>
-				  </div>
-				  <div class="form-group">
-				      <label for="exampleInputEmail1">New User? <?= anchor('signupUser','signup here')?></label>
+				      <label for="exampleInputEmail1">Remember Password? <?= anchor('loginUser','Login here')?></label>
 				  </div>
 			</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<hr>
-			<h6><small class="text-muted"></small><?= anchor('policy','Policies')?> | <small class="text-muted"></small><?= anchor('terms','Terms')?></h6>
-		</div>
+			<div class="col-sm-4">
+			</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-12 company">

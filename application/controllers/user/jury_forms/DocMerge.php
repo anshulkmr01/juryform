@@ -1,10 +1,8 @@
 <?php
 		use PhpOffice\PhpWord\TemplateProcessor;
 		use DocxMerge\DocxMerge;
-
 		class DocMerge extends CI_controller{
-
-			
+	
 		function __construct(){
 			parent::__construct();
 			if(!$this->session->userdata('userId'))
@@ -12,7 +10,6 @@
 		}
 
 		function index(){
-
 			$dm = new DocxMerge();
 			$resultFile = 'Merged_File.docx';
 			$resultFolder = 'mergedDocs/';
@@ -20,18 +17,15 @@
 			$docPaths = $this->input->post('docPath');
 			$variables = $this->input->post();
 			unset($variables['docPath']);
-
-
 			foreach ($variables as $key => $value) {
-
 				if(empty($value)){
-
 					$variables[$key] = $emptyVar;
 					}
 			}
-			// $docname[] = base_url('uploads/fix.docx');
+			if (file_exists('dynamic_doc_first_page/doc_first_page.docx')) {		
+				$docname[] = base_url('dynamic_doc_first_page/doc_first_page.docx');
+			}
 			foreach ($docPaths as $document) {
-
 				$docname[] = self::textReplace($variables, $document);
 			}
 
@@ -39,6 +33,7 @@
 			if($result == 0)
 			{
 			chmod($resultFolder.$resultFile,0755);
+			unlink("dynamic_doc_first_page/doc_first_page.docx");
 				$this->session->set_flashdata('mergedFileSuccess',$resultFolder.$resultFile);
 			}
 
@@ -46,7 +41,7 @@
 				$this->session->set_flashdata('mergedFileFailed','File Merging Failed');
 			}
 			
-			return redirect('user/HomeController');
+			return redirect('user/jury_forms/HomeController');
 		}
 
 

@@ -37,7 +37,7 @@
 				  <fieldset>
 				    <legend>Add New Field</legend>
 				    <span>Add New Field for users to replace text in the Document Files</span>
-					<?= form_open('admin/AdminLogin/fieldValidate'); ?>
+					<?= form_open('admin/jury_forms/fieldValidate'); ?>
 				    <div class="form-group margin-top-25">
 				      <label for="exampleInputEmail1">Field Label Name*</label>
 
@@ -100,7 +100,7 @@
 				    <?php if($filedList){
 				    	?>
 				    <table class="table sortable-table mytable" id="myTable"style="text-align: left;">
-				    	<?= form_open('admin/AdminLogin/deleteSelectedFields')?>
+				    	<?= form_open('admin/jury_forms/deleteSelectedFields')?>
 				    	<tr class="">
 				    		<th class="no-sort">S.no</th>
 				    		<th>Label</th>
@@ -118,13 +118,13 @@
 				    			<td><?= $field->FieldName; ?></td>
 				    			<td>
 				    				<?php if($field->sub[0]->DocumentID != "allDocuments"){?>
-									<?= anchor("admin/AdminLogin/assignNewDocument/{$field->ID}",'Add doc',['class'=>'btn btn-primary btn-sm']) ?>
+									<?= anchor("admin/jury_forms/assignNewDocument/{$field->ID}",'Add doc',['class'=>'btn btn-primary btn-sm']) ?>
 									<?php }?>
 								</td>
 				    			<td>
 									<a data-toggle="modal" data-item="<?= $field->FieldLabel ?>" data-id="<?= $field->ID ?>" data-user="<?= $field->FieldName ?>" class="open-updateFields btn btn-primary btn-sm" href="#renameDynamicFields">Edit</a>
 								</td>
-				    			<td><?= anchor("admin/AdminLogin/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
+				    			<td><?= anchor("admin/jury_forms/deleteField/{$field->ID}",'Delete',['class'=>'delete btn btn-danger btn-sm']) ?></td>
 				    			<td><center><input type="checkbox" value="<?= $field->ID ?>" name="fieldId[]"></center></td>
 				    			<?php if($field->sub){
 
@@ -149,6 +149,7 @@
 				    	<?php if(isset($field->ID)) {?>
 					<tfoot>
 						<tr>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -187,7 +188,7 @@
 						  <fieldset>
 						    <legend>Upldate Fields</legend>
 						    <span>Update Field Name & Keyword for users to replace text in the Document Files</span>
-							<?= form_open('admin/AdminLogin/fieldUpdate'); ?>
+							<?= form_open('admin/jury_forms/fieldUpdate'); ?>
 						    <div class="form-group margin-top-25">
 						    	<input type="hidden" id="fieldId" name="fieldId">
 						      <label for="exampleInputEmail1">Field Label Name*</label>

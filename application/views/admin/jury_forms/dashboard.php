@@ -37,7 +37,7 @@
 				    	</div>
 				    <?php endif;?>
 			<table id="myTable" class="sortable-table">
-				<?= form_open('admin/AdminLogin/deleteSelectedCategories'); ?>
+				<?= form_open('admin/jury_forms/deleteSelectedCategories'); ?>
 				<tr class="sorter-header">
 					<th class="no-sort">S.no</th>
 					<th>Categories Name</th>
@@ -57,13 +57,13 @@
 						<td><?#= date('m/d/y',strtotime($categories->Dateofcreation)) ?></td>
 						-->	
 						<td>
-							<a href="<?= base_url('admin/AdminLogin/documents')?>?categoryId=<?=$categories->CategoryId ?>&categoryName=<?=$categories->Categoryname?>" class="btn btn-primary">View</a>
+							<a href="<?= base_url('admin/jury_forms/HomeController/documents')?>?categoryId=<?=$categories->CategoryId ?>&categoryName=<?=$categories->Categoryname?>" class="btn btn-primary">View</a>
 						</td>
 						<td>
-							<a href="<?= base_url('admin/AdminLogin/editCategory')?>?categoryId=<?=$categories->CategoryId ?>&categoryName=<?=$categories->Categoryname?>" class="btn btn-primary">Edit</a>
+							<a href="<?= base_url('admin/jury_forms/HomeController/editCategory')?>?categoryId=<?=$categories->CategoryId ?>&categoryName=<?=$categories->Categoryname?>" class="btn btn-primary">Edit</a>
 						</td>
 						<td>
-							<a href="<?= base_url('admin/AdminLogin/deleteCategory')?>?categoryId=<?=$categories->CategoryId ?>" class="delete btn btn-danger">Delete</a>
+							<a href="<?= base_url('admin/jury_forms/HomeController/deleteCategory')?>?categoryId=<?=$categories->CategoryId ?>" class="delete btn btn-danger">Delete</a>
 						</td>
 						<td><center><input type="checkbox" value="<?=$categories->CategoryId ?>" name="categoryIds[]"></center></td>
 						</tr>

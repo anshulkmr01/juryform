@@ -209,10 +209,14 @@
                 return $this->db->where('id',$userId)->update('users',['password'=>md5($changePasswordData['newPassword'])]);
             }
         }
-		public function get_categories(){
-
-        $parent = $this->db->get('documentcategories');
-        
+		public function get_categories($order_by, $sort_type){
+        // $parent = $this->db->get('documentcategories');
+        $parent = $this->db->query('
+                    SELECT *, 
+                    CAST(Categoryname as SIGNED) AS casted_column
+                    FROM documentcategories
+                    ORDER BY casted_column ASC , Categoryname ASC
+                ');
         $categories = $parent->result();
         $i=0;
         foreach($categories as $p_cat){
@@ -254,6 +258,7 @@
     public function sub_categories($id){
 
         $this->db->select('*');
+        $this->db->order_by('DocumentName', 'ASC');
         $this->db->from('documentnames');
         $this->db->where('CategoryId', $id);
 

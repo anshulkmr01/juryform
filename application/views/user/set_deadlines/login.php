@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Merge Document to JURY INSTRUCTIONS</title>
+	<title>Law Calendar</title>
 	<?php 
 			globalCss(); 
 	?>
@@ -63,15 +63,13 @@
 			</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-12">
-			<hr>
-			<h6><small class="text-muted"></small><?= anchor('policy','Policies')?> | <small class="text-muted"></small><?= anchor('terms','Terms')?></h6>
-		</div>
-	</div>
-	<div class="row">
 		<div class="col-sm-12 company">
 			<h6><small class="text-muted">Developed & Designed by </small><?= anchor('https://Kbrostechno.com','KBros Technologies')?></h6>
 		</div>
+	</div>
+	<hr>
+	<div class="links"><span><a target="new" href="<?= base_url('policy')?>">Policy</a></span> |
+		<span><a target="new" href="<?= base_url('terms')?>">Terms & Conditions</a></span>
 	</div>
 	</div>
 

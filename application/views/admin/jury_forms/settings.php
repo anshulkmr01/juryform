@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Merge Document to JURY INSTRUCTIONS</title>
+	<title>Law Calendar</title>
 	<!-- Global Css using Helper -->
 	<?php 
 			globalCss(); 
@@ -37,15 +37,15 @@
 					    $adminId = $this->session->userdata('adminId')
 				    ?>
 				    <div class="form-group">
-				      <label for="exampleInputEmail1">Admin Name*</label>
-				      <?= form_input(['placeholder'=>'Admin User Name','name'=>'newAdminName','value'=>$adminName,'class'=>'form-control','id'=>'newAdminName','aria-describedby'=>'newAdminName']); ?>
-				      <small id="newAdminName" class="form-text text-muted"></small>
+				      <label for="exampleInputEmail1">Admin Email*</label>
+				      <?= form_input(['placeholder'=>'Admin Email','name'=>'newAdminName','value'=>$adminName,'class'=>'form-control','id'=>'newAdminName','aria-describedby'=>'newAdminName']); ?>
+				      <small id="newAdminName" class="form-text text-muted">Highly recommend use only Authorized Email, This email will be used for recovering Password in case of forgetting Admin Panel password</small>
 					  <?= form_error('newAdminName');?>
 				  	</div>
 
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Password*</label>
-				      <?= form_input(['placeholder'=>'Admin Password','name'=>'newAdminPassword','class'=>'form-control','id'=>'newAdminPassword','aria-describedby'=>'newAdminPassword']); ?>
+				      <?= form_input(['placeholder'=>'Password','name'=>'newAdminPassword','class'=>'form-control','id'=>'newAdminPassword','aria-describedby'=>'newAdminPassword']); ?>
 				      <small id="newAdminPassword" class="form-text text-muted"></small>
 					  <?php echo form_error('newAdminPassword');?>
 				  	</div>

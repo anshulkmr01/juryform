@@ -17,7 +17,19 @@
 		}
 
 		function getCategories(){
-			$query = $this->db->get('documentcategories');
+			// $this->db->order_by('CAST(SUBSTRING_INDEX(Categoryname,' ',1) AS DECIMAL (1,1))', 'ASC');
+			// $this->db->order_by("Categoryname", "ASC");
+			// $query = $this->db->get('documentcategories');
+
+			$query = $this->db->query('
+					SELECT *, 
+					CAST(Categoryname as SIGNED) AS casted_column
+					FROM documentcategories
+					ORDER BY casted_column ASC , Categoryname ASC
+				');
+			// echo "<pre>";
+			// print_r($query->result_array());
+			// exit();
 			return $query;
 		}
 
@@ -43,16 +55,18 @@
 						->update('documentcategories',['Categoryname'=>$editCategory]);
 		}
 
-		function addDocuments($categoryId,$image_path,$image_name){
-			return $this->db->insert('documentnames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name]);
+		function addDocuments($categoryId,$image_path,$image_name,$revised_date){
+			return $this->db->insert('documentnames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name, 'DateofUpdation'=>$revised_date]);
 
 		}
 
 		function getDocumentsList($CategoryId){
+        $this->db->order_by('DocumentName', 'ASC');
 		return $this->db->where(['CategoryId'=>$CategoryId])->get('documentnames')->result();
 		}
 
 		function allDocuments(){
+	        $this->db->order_by('DocumentName', 'ASC');
 			return $this->db->get('documentnames')->result();
 		}
 
@@ -97,7 +111,7 @@
 			$chekIfFieldNameExist = $this->db->where('FieldName',$labelText)->get('dynamicfields')->result();
 			if($chekIfFieldNameExist){
 				$this->session->set_flashdata('error','Keyword Already Exist');
-				return redirect('admin/AdminLogin/createField');
+				return redirect('admin/jury_forms/dynamic_fields');
 			}
 
 			$query = $this->db->insert('dynamicfields',['FieldLabel'=>$labelName, 'FieldName'=>$labelText]);
@@ -114,15 +128,17 @@
 		}
 
 		function assignMoreDocuments($fieldID, $selectedDocuments){
-
+			$flag = 0;
 			foreach ($selectedDocuments as $document) {
 			$document = explode('/amg/',$document);
-
 				$docID = $document[0];
 				$docName = $document[1];
-				$this->db->insert('assignedfields',['FieldID'=>$fieldID, 'DocumentID'=>$docID,'DocumentName'=>$docName]);
+				$query = $this->db->insert('assignedfields',['FieldID'=>$fieldID, 'DocumentID'=>$docID,'DocumentName'=>$docName]);
+				if ($query) {
+					$flag = 1;
+				}
 			}
-			return true;
+			return $flag;
 		}
 
 

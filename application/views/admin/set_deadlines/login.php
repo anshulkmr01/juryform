@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Merge Document to JURY INSTRUCTIONS</title>
+	<title>Title</title>
 	<?php 
 			globalCss(); 
 	?>
@@ -11,17 +11,16 @@
 	<div class="user-signup-form container">
 		<div class="row">
 			<div class="col-sm-6">
-			</div>
-			<div class="col-sm-6">
-				<?= form_open('validateUser'); ?>
+				<?= form_open('validate'); ?>
 				  <fieldset>
-				    <legend>User Login</legend>
+				    <legend>Admin Login</legend>
 
 				    <?php if($error = $this->session->flashdata('error')):?>
 				    	<div class="alert alert-danger">
 				    		<?= $error; ?>
 				    	</div>
 				    <?php endif;?>
+
 
 				    <?php if($warning = $this->session->flashdata('warning')):?>
 				    	<div class="alert alert-warning">
@@ -38,16 +37,16 @@
 				    <div class="form-group">
 				      <label for="exampleInputEmail1">Email*</label>
 
-				      <?php echo form_input(['placeholder'=>'Email','name'=>'userEmail','value'=>set_value('userEmail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'userEmail']); ?>
+				      <?php echo form_input(['placeholder'=>'Email','name'=>'adminemail','value'=>set_value('adminemail'),'class'=>'form-control','id'=>'exampleInputEmail1','aria-describedby'=>'adminemail']); ?>
 				      <small id="emailHelp" class="form-text text-muted"></small>
-					  <?php echo form_error('userEmail');?>
+					  <?php echo form_error('adminemail');?>
 				  	</div>
 
 				    <div class="form-group">
 				      <label for="exampleInputPassword1">Password*</label>
 
-				      <?php echo form_password(['placeholder'=>'Password','name'=>'userPassword','value'=>set_value('userPassword'),'class'=>'form-control','id'=>'exampleInputPassword1','aria-describedby'=>'userPassword']); ?>
-					  <?php echo form_error('userPassword');?>
+				      <?php echo form_password(['placeholder'=>'Password','name'=>'adminpassword','value'=>set_value('adminpassword'),'class'=>'form-control','id'=>'exampleInputPassword1','aria-describedby'=>'adminpassword']); ?>
+					  <?php echo form_error('adminpassword');?>
 
 				    </div>
 
@@ -55,17 +54,12 @@
 				  </fieldset>
 				  <br>
 				  <div class="form-group">
-				      <label for="exampleInputEmail1"><?= anchor('recoverPassword','Recover Password')?></label>
-				  </div>
-				  <div class="form-group">
-				      <label for="exampleInputEmail1">New User? <?= anchor('signupUser','signup here')?></label>
+				      <label for="exampleInputEmail1"><?= anchor('recoverAdminPassword','Recover Password')?></label>
 				  </div>
 			</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<hr>
-			<h6><small class="text-muted"></small><?= anchor('policy','Policies')?> | <small class="text-muted"></small><?= anchor('terms','Terms')?></h6>
+			<div>
+			<div class="col-sm-6">
+			</div>
 		</div>
 	</div>
 	<div class="row">

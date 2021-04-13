@@ -6,12 +6,22 @@
 			$this->load->model('UserModel');
 			$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
 		}
+		
 		function loginUser()
-		{if($this->session->userdata('userId'))
-				return redirect('home');
+		{
+			if($this->session->userdata('userId'))
+				return redirect('select_website');
 			//load login Page
 			$this->load->view('user/login');
 		}
+
+	    function policy(){
+	    	$this->load->view('user/policy');
+	    }
+
+	    function terms(){
+	    	$this->load->view('user/terms');
+	    }
 
 		function signupUser()
 		{
@@ -135,9 +145,7 @@
 
 					//Set user Id into user session
 					$this->session->set_userdata('userId',$userId);
-
-					//Redired Authenticated to User Homepage
-					return redirect('home');
+					return redirect('select_website');
 			}
 			else{
 				$this->session->set_flashdata('error','Wrong password');
@@ -146,7 +154,7 @@
 		}
 		else{
 			$this->load->view('user/login');
-		}
+			}
 		}
 
 		function verifyUser($userEmail,$recivedKey){

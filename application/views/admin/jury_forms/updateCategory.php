@@ -16,7 +16,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
-				<?= form_open('admin/AdminLogin/updateCategory'); ?>
+				<?= form_open('admin/jury_forms/update_category'); ?>
 				  <fieldset>
 				    <legend>Update Category Name</legend>
 

@@ -37,7 +37,7 @@
 				  <fieldset>
 				    <legend>Assign Documents</legend>
 				    <span>Assign more documents to selected Field</span>
-					<?= form_open('admin/AdminLogin/assignMoreDocuments'); ?>
+					<?= form_open('admin/jury_forms/assignMoreDocuments'); ?>
 					<input type="hidden" value="<?= $fieldID ?>" name="fieldID">
 					 <?php if($documents){?>
 				  	 <div class="form-group">

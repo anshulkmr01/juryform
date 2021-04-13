@@ -15,7 +15,7 @@
 
 	<div class="container-fluid categories-home">
 		<div class="container">
-			<?= form_open('user/DocMerge') ?>
+			<?= form_open('user/jury_forms/DocMerge') ?>
 			<legend>Fill the Given Details</legend>
 			<small id="fileHelp" class="form-text text-muted">Fill the given Details and select the Documents from Categories for merging.</small>
 				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>

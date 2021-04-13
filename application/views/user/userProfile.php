@@ -10,13 +10,13 @@
 </head>
 <body>
 	<!-- Navbar -->
-		<?php include 'navbar.php'?>
+		<?php $this->load->view('user/jury_forms/navbar')?>
 	<!--/ Navbar -->
 	<!-- Search Bar -->
 		<div class="container-fluid margin-top-25">
 			<div class="container">
 				<ol class="breadcrumb">
-				  <li class="breadcrumb-item"><a href="home">Home</a></li>
+				  <li class="breadcrumb-item"><a href="<?= base_url($this->session->userdata('active_website'))?>">Home</a></li>
 				  <li class="breadcrumb-item active">Settings</li>
 				 </ol>
 		    </div>
@@ -70,7 +70,8 @@
 				  	</div>
 				    <?= form_submit(['value'=>'Change','class'=>'btn btn-primary']); ?>
 				  </fieldset>
-				</div>
+				<?= form_close(); ?>
+			  </div>
 			</div>
 		</div>
 	</div>

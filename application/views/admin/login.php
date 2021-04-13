@@ -11,7 +11,7 @@
 	<div class="user-signup-form container">
 		<div class="row">
 			<div class="col-sm-6">
-				<?= form_open('admin/AdminLogin/validate'); ?>
+				<?= form_open('admin/login'); ?>
 				  <fieldset>
 				    <legend>Admin Login</legend>
 

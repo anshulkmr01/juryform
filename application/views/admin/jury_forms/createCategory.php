@@ -17,7 +17,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
-				<?= form_open('admin/AdminLogin/categoryValidate'); ?>
+				<?= form_open('admin/jury_forms/HomeController/categoryValidate'); ?>
 				  <fieldset>
 				    <legend>Add New Category</legend>
 

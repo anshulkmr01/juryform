@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 /*
-	database credentials for juryforms.com
+	database credentials for kenegu.com
 	
 	 'username' => 'maria',
 	 'password' => '@8fo42hz#0%pD@',
@@ -85,9 +85,37 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
+	// 'username' => 'maria',
+	// 'password' => '@8fo42hz#0%pD@',
+	// 'database' => 'juryinstructions',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'phpMerge',
+	'database' => 'phpmerge',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['set_deadline'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'LawCalendar',
+	// 'username' => 'maria',
+	// 'password' => '@8fo42hz#0%pD@',
+	// 'database' => 'lawcalendar',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

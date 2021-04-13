@@ -33,7 +33,6 @@
 			</div>
 		</div>
 		<div class="container">
-			<?= form_open('user/HomeController/getDynamicFields') ?>
 			<legend>Categories</legend>
 			<small id="fileHelp" class="form-text text-muted">Select the Jury Instructions.</small>
 				<?php if($mergedFileSuccess = $this->session->flashdata('mergedFileSuccess')):?>
@@ -48,7 +47,17 @@
 					    		<?= $mergedFileFailed; ?>
 					    	</div>
 				<?php endif;?>
-
+			<!-- <small id="fileHelp" class="form-text text-muted">Sort Categories</small>
+			<form action="<?= base_url("home")?>" method="post" id="sorting_drop_form">
+			<select id="sorting_drop" name="sorting_drop">
+				<option value="">--Select here--</option>
+				<option value="Dateofcreation_ASC">Adding Date Asc</option>
+				<option value="Dateofcreation_DESC">Adding Date Desc</option>
+				<option value="Categoryname_ASC">Category Name Asc</option>
+				<option value="Categoryname_DESC">Category Name Desc</option>
+			</select>
+			</form> -->
+			<?= form_open('user/jury_forms/HomeController/getDynamicFields') ?>
 			<div class="category-container">
 				<?php $counter = 0;?>
 				<?php foreach($categoriesData as $categories): ?>
@@ -211,5 +220,9 @@ function filterResults(filters) {
     hiddenElems[i].style.display = "none";
   }
 }
+
+$("#sorting_drop").on('change', function() {
+ $("#sorting_drop_form").submit();
+});
 </script>
 </html>

@@ -1,7 +1,4 @@
 <?php
-	/**
-	 * 
-	 */
 	class Welcome extends CI_Controller
 	{
 		function __construct(){
@@ -15,10 +12,17 @@
 		}
 		
 		public function index(){
-		$queryResult = $this->UserModel->get_categories();
-		$fieldList = $this->AdminModel->AllFieldList();
+			return redirect('jury_forms');
+		}
 
-		$this->load->view('user/homepage',['categoriesData'=>$queryResult,'fieldList'=>$fieldList]);
+		public function select_website($website = "")
+		{
+			if ($website) {
+				$this->session->set_userdata('active_website',$website);
+				return redirect($website);
+			} else {		
+				$this->load->view('select_website');
+			}
 		}
 	}
 ?>

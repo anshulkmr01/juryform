@@ -20,7 +20,7 @@
 		<div class="row document-add">
 			<div class="col-sm-6">
 				<h3><div class="category-label"><small class="text-muted">You are in</small> <?= $multipleData['categoryData']['categoryName'] ?> <small class="text-muted">Category</small></div></h3>
-				<?= form_open_multipart('admin/AdminLogin/uploadFiles'); ?>
+				<?= form_open_multipart('admin/jury_forms/HomeController/uploadFiles'); ?>
 		    <div class="form-group">
 
 
@@ -68,7 +68,7 @@
 	<!--/ Search Bar -->
 
 			<table id="myTable" class="sortable-table">
-				<?= form_open('admin/AdminLogin/deleteSelected'); ?>
+				<?= form_open('admin/jury_forms/HomeController/deleteSelected'); ?>
 				<tr  class="sorter-header">
 					<th class="no-sort">S.no</th>
 					<th>Document Name</th>
@@ -103,7 +103,7 @@
 						<a data-toggle="modal" data-item="<?= $document->ID?>" data-id="<?= $document->DocumentName ?>" class="open-AddBookDialog btn btn-primary" href="#renameDocModal">Edit</a>
 					</td>
 					<td>
-						<a href="<?= base_url('admin/AdminLogin/deleteDocument')?>?documentId=<?=$document->ID?>&documentName=<?=$document->DocumentName?>" class="delete btn btn-danger">Delete</a>
+						<a href="<?= base_url('admin/jury_forms/HomeController/deleteDocument')?>?documentId=<?=$document->ID?>&documentName=<?=$document->DocumentName?>" class="delete btn btn-danger">Delete</a>
 
 					</td>
 					<td>
@@ -139,7 +139,7 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					      <?= form_open('admin/AdminLogin/documentRename'); ?>
+					      <?= form_open('admin/jury_forms/HomeController/documentRename'); ?>
 					      	<div class="form-group">
 						      <label for="exampleInputEmail1">Category Name*</label>
  							  <input type="hidden" name="docId" id="docId">
