@@ -1,0 +1,4 @@
+<label>
+	<?php $url = 'https://docs.google.com/viewerng/viewer?url='.$DocmentData->DocumentPath;	?>
+		<?= anchor($url,$DocmentData->DocumentName,['target'=>'new']) ?>
+</label>	

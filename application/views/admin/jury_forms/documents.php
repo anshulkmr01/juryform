@@ -18,7 +18,7 @@
 		<div class="container">
 
 		<div class="row document-add">
-			<div class="col-sm-6">
+			<div class="col-sm-12">
 				<h3><div class="category-label"><small class="text-muted">You are in</small> <?= $multipleData['categoryData']['categoryName'] ?> <small class="text-muted">Category</small></div></h3>
 				<?= form_open_multipart('admin/jury_forms/HomeController/uploadFiles'); ?>
 		    <div class="form-group">

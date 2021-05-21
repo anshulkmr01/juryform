@@ -56,7 +56,7 @@
 		}
 
 		function addDocuments($categoryId,$image_path,$image_name,$revised_date){
-			return $this->db->insert('documentnames',['	CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name, 'DateofUpdation'=>$revised_date]);
+			return $this->db->insert('documentnames',['CategoryId'=>$categoryId,'DocumentPath'=>$image_path,'DocumentName'=>$image_name, 'DateofUpdation'=>$revised_date]);
 
 		}
 

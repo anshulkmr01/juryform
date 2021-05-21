@@ -1,4 +1,5 @@
 <?php
+	require("doc2txt.class.php");
 	class HomeController extends CI_Controller{
 
 		public function __construct(){
@@ -159,8 +160,6 @@
 		}
 
 		public function documents(){
-
-
 			if(isset($_GET['categoryId'])){
 					$this->session->set_userdata('categoryId',$_GET['categoryId']);
 			}
@@ -171,14 +170,9 @@
 
 				$categoryName = $this->session->userdata('categoryName');
 				$categoryId = $this->session->userdata('categoryId');
-
-		
 			$categoryData['categoryId'] = $categoryId;
-
 			$categoryData['categoryName'] = $categoryName;
-
 			if($categoryData){
-
 				$this->session->set_userdata('categoryData',$categoryData);
 			}
 			else
@@ -248,7 +242,6 @@
 
 		function return_revised_date($file_name)
 		{
-			require("doc2txt.class.php");
 			$docObj = new Doc2Txt($file_name);
 			$lines = $docObj->convertToText();
 			$para_array = explode('-flag-',$lines);

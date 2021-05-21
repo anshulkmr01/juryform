@@ -236,3 +236,9 @@ tr.detail div {
 ::-webkit-scrollbar-thumb:hover {
   background: #dc8f21; 
 }
+.bg-light {
+    background: #f7f7f7 !important;
+}
+.navbar-light .navbar-nav .nav-link {
+color: rgb(0 0 0 / 80%) !important;
+}

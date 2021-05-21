@@ -24,7 +24,7 @@
       </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <a href="<?= base_url("select_website/".$switch_website); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Switch Website</button></a>
+        <a href="<?= base_url("select_website/".$switch_website); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Switch to Setdeadlines</button></a>
       </form>
       <form class="form-inline my-2 my-lg-0">
         <a href="<?= base_url("user_settings"); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Settings</button></a>

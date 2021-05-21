@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="<?= base_url("admin/jury_forms"); ?>">Admin Panel</a>
+  <a class="navbar-brand" href="<?= base_url("admin/jury_forms"); ?>">Juryforms</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -37,7 +37,7 @@
         <a href="<?= base_url("select_website/jury_forms"); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">User Dashboard</button></a>
       </form>
       <form class="form-inline my-2 my-lg-0">
-        <a href="<?= base_url("admin/select_website/".$switch_website); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Switch Website</button></a>
+        <a href="<?= base_url("admin/select_website/".$switch_website); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Switch to Setdeadlines</button></a>
       </form>
       <form class="form-inline my-2 my-lg-0">
         <a href="<?= base_url("admin/jury_forms/settings"); ?>"><button class="btn btn-secondary my-2 my-sm-0" type="button">Settings</button></a>
